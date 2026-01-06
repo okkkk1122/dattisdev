@@ -1,0 +1,176 @@
+{
+  "common": {
+    "home": "Home",
+    "about": "About Us",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "blog": "Blog",
+    "contact": "Contact Us",
+    "login": "Login",
+    "register": "Register",
+    "dashboard": "Dashboard",
+    "admin": "Admin",
+    "logout": "Logout",
+    "search": "Search",
+    "readMore": "Read More",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "update": "Update",
+    "submit": "Submit",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "viewAll": "View All",
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "contactUs": "Contact Us",
+    "ourServices": "Our Services",
+    "ourPortfolio": "Our Portfolio",
+    "ourTeam": "Our Team",
+    "testimonials": "Testimonials",
+    "latestBlog": "Latest Blog"
+  },
+  "home": {
+    "title": "Welcome to DattisDev",
+    "subtitle": "Expert in Web Design, Apps, Bots & Software Development",
+    "description": "We are a professional team of developers and designers who provide creative digital solutions for your business using the latest technologies.",
+    "cta": "Start Project",
+    "ctaSecondary": "View Portfolio",
+    "stats": {
+      "projects": "Successful Projects",
+      "clients": "Satisfied Clients",
+      "experience": "Years Experience",
+      "team": "Team Members"
+    },
+    "features": {
+      "title": "Why Choose DattisDev?",
+      "subtitle": "We provide the best solutions with expertise and experience"
+    },
+    "services": {
+      "title": "Our Services",
+      "subtitle": "Comprehensive solutions for your digital needs"
+    },
+    "portfolio": {
+      "title": "Our Portfolio",
+      "subtitle": "Our successful and creative projects"
+    },
+    "testimonials": {
+      "title": "Client Testimonials",
+      "subtitle": "What our clients say"
+    },
+    "blog": {
+      "title": "Latest Articles",
+      "subtitle": "Useful articles and tutorials"
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Professional solutions for your business",
+    "webDesign": {
+      "title": "Web Design",
+      "description": "Modern, responsive and SEO-optimized website design",
+      "features": ["Responsive Design", "SEO Optimization", "High Speed", "Security"]
+    },
+    "appDevelopment": {
+      "title": "App Development",
+      "description": "Mobile app development for iOS and Android",
+      "features": ["iOS & Android", "UX/UI Design", "High Performance", "Support"]
+    },
+    "botDevelopment": {
+      "title": "Bot Development",
+      "description": "Smart bots for Telegram, WhatsApp and other platforms",
+      "features": ["Telegram Bot", "WhatsApp Bot", "AI Integration", "Automation"]
+    },
+    "softwareDevelopment": {
+      "title": "Software Development",
+      "description": "Custom software for your specific business needs",
+      "features": ["Custom Software", "Scalability", "High Security", "Support"]
+    }
+  },
+  "portfolio": {
+    "title": "Portfolio",
+    "subtitle": "Our successful projects",
+    "filter": {
+      "all": "All",
+      "web": "Website",
+      "app": "Application",
+      "bot": "Bot",
+      "software": "Software"
+    },
+    "viewProject": "View Project",
+    "technologies": "Technologies"
+  },
+  "about": {
+    "title": "About DattisDev",
+    "subtitle": "Our professional team",
+    "mission": {
+      "title": "Our Mission",
+      "description": "Providing the best digital solutions using the latest technologies"
+    },
+    "vision": {
+      "title": "Vision",
+      "description": "Becoming the leading software development company in the region"
+    },
+    "values": {
+      "title": "Our Values",
+      "quality": "Quality",
+      "innovation": "Innovation",
+      "customerFocus": "Customer Focus",
+      "excellence": "Excellence"
+    }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Articles and tutorials",
+    "readMore": "Read More",
+    "categories": "Categories",
+    "tags": "Tags",
+    "relatedPosts": "Related Posts"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're here to help you",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message"
+    },
+    "info": {
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "hours": "Working Hours"
+    }
+  },
+  "chat": {
+    "title": "Online Chat",
+    "placeholder": "Type your message...",
+    "send": "Send",
+    "online": "Online",
+    "offline": "Offline",
+    "typing": "Typing...",
+    "noMessages": "No messages"
+  },
+  "tickets": {
+    "title": "Tickets",
+    "newTicket": "New Ticket",
+    "subject": "Subject",
+    "category": "Category",
+    "priority": "Priority",
+    "status": "Status",
+    "message": "Message",
+    "attachments": "Attachments",
+    "create": "Create Ticket",
+    "reply": "Reply"
+  }
+}
