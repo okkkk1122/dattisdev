@@ -4,7 +4,11 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import ThemedCard from '@/components/common/ThemedCard';
+import type { BackgroundKey } from '@/lib/data/backgroundImages';
+import { serviceImages } from '@/lib/data/sectionImages';
 import { Monitor, Smartphone, Bot, Code, ArrowLeft } from 'lucide-react';
+import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 const translations: Record<string, Record<string, any>> = {
@@ -73,11 +77,11 @@ const translations: Record<string, Record<string, any>> = {
   },
 };
 
-const services = [
-  { icon: Monitor, key: 'webDesign', color: 'from-blue-500 to-cyan-500' },
-  { icon: Smartphone, key: 'appDevelopment', color: 'from-purple-500 to-pink-500' },
-  { icon: Bot, key: 'botDevelopment', color: 'from-green-500 to-emerald-500' },
-  { icon: Code, key: 'softwareDevelopment', color: 'from-orange-500 to-red-500' },
+const services: { icon: typeof Monitor; key: keyof typeof serviceImages; color: string; bg: BackgroundKey }[] = [
+  { icon: Monitor, key: 'webDesign', color: 'from-blue-500 to-cyan-500', bg: 'web' },
+  { icon: Smartphone, key: 'appDevelopment', color: 'from-purple-500 to-pink-500', bg: 'app' },
+  { icon: Bot, key: 'botDevelopment', color: 'from-green-500 to-emerald-500', bg: 'bot' },
+  { icon: Code, key: 'softwareDevelopment', color: 'from-orange-500 to-red-500', bg: 'software' },
 ];
 
 export default function ServicesPreviewSection() {
@@ -119,19 +123,31 @@ export default function ServicesPreviewSection() {
                 whileHover={{ y: -10 }}
                 className="group"
               >
-                <div className="h-full p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-2xl transition-all cursor-pointer">
-                  <div
-                    className={`w-16 h-16 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}
-                  >
-                    <Icon className="text-white" size={32} />
+                <ThemedCard background={service.bg} className="h-full group cursor-pointer overflow-hidden">
+                  <div className="relative h-36">
+                    <Image
+                      src={serviceImages[service.key]}
+                      alt={serviceData.title}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 25vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    <div
+                      className={`absolute bottom-3 right-3 w-12 h-12 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center shadow-lg`}
+                    >
+                      <Icon className="text-white" size={24} />
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                    {serviceData.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {serviceData.description}
-                  </p>
-                </div>
+                  <div className="h-full p-6">
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      {serviceData.title}
+                    </h3>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      {serviceData.description}
+                    </p>
+                  </div>
+                </ThemedCard>
               </motion.div>
             );
           })}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
+import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 const translations: Record<string, Record<string, string>> = {
@@ -29,7 +30,7 @@ const translations: Record<string, Record<string, string>> = {
 };
 
 import { usePortfolioStore } from '@/lib/stores/portfolioStore';
-import { categoryMap } from '@/lib/data/mockData';
+import { getPortfolioCategoryLabel, pickLocalized } from '@/lib/i18n/localeHelpers';
 
 export default function PortfolioPreviewSection() {
   const pathname = usePathname();
@@ -39,12 +40,12 @@ export default function PortfolioPreviewSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const { getActiveProjects, projects: allProjects } = usePortfolioStore();
   const activeProjects = getActiveProjects();
-  const projects = activeProjects.slice(0, 4).map(project => ({
+  const projects = activeProjects.slice(0, 4).map((project) => ({
     id: project.id,
-    title: project.title,
-    category: categoryMap[project.category as keyof typeof categoryMap],
+    title: pickLocalized(project as unknown as Record<string, unknown>, 'title', locale),
+    category: getPortfolioCategoryLabel(project.category, locale),
     image: project.image,
-    description: project.description,
+    description: pickLocalized(project as unknown as Record<string, unknown>, 'description', locale),
   }));
 
   return (
@@ -73,17 +74,24 @@ export default function PortfolioPreviewSection() {
               whileHover={{ y: -10 }}
               className="group"
             >
-              <div className="relative overflow-hidden rounded-xl bg-gray-200 dark:bg-gray-800 aspect-square">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-secondary-500/20 group-hover:from-primary-500/40 group-hover:to-secondary-500/40 transition-all" />
-                <div className="absolute inset-0 flex items-center justify-center p-6">
-                  <div className="text-center">
-                    <span className="inline-block px-3 py-1 bg-white/90 dark:bg-gray-900/90 rounded-full text-sm font-semibold mb-2">
+              <div className="relative overflow-hidden rounded-xl aspect-square shadow-lg">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                  sizes="(max-width: 768px) 100vw, 25vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/85 via-gray-900/40 to-transparent group-hover:from-primary-900/90 transition-all" />
+                <div className="absolute inset-0 flex items-end p-6">
+                  <div className="text-right w-full">
+                    <span className="inline-block px-3 py-1 bg-white/90 rounded-full text-sm font-semibold mb-2 text-gray-900">
                       {project.category}
                     </span>
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-xl font-bold text-white mb-2">
                       {project.title}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-white/80 line-clamp-2">
                       {project.description}
                     </p>
                   </div>

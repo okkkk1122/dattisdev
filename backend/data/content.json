@@ -1,0 +1,20 @@
+{
+  "posts": [],
+  "portfolio": [],
+  "testimonials": [],
+  "pricing": [],
+  "faq": [],
+  "emails": [],
+  "settings": {
+    "siteName": "DattisDev",
+    "contactEmail": "info@dattisdev.com",
+    "contactPhone": "+98 21 1234 5678",
+    "address": "تهران، خیابان ولیعصر",
+    "mailDomain": "dattisdev.com",
+    "smtpHost": "haraka",
+    "smtpPort": 25,
+    "smtpUser": "",
+    "smtpPass": "",
+    "smtpFrom": "info@dattisdev.com"
+  }
+}

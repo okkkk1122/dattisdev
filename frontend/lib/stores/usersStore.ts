@@ -59,6 +59,7 @@ export const useUsersStore = create<UsersState>()(
     {
       name: 'dattisdev-users-storage',
       storage: typeof window !== 'undefined' ? createJSONStorage(() => localStorage) : undefined,
+      skipHydration: true,
     }
   )
 );

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Calendar, User, ArrowLeft } from 'lucide-react';
+import Image from 'next/image';
 import Button from '@/components/common/Button';
 
 const translations: Record<string, Record<string, string>> = {
@@ -29,6 +30,7 @@ const translations: Record<string, Record<string, string>> = {
 };
 
 import { usePostsStore } from '@/lib/stores/postsStore';
+import { pickLocalized, pickLocalizedTags } from '@/lib/i18n/localeHelpers';
 
 export default function BlogPreviewSection() {
   const pathname = usePathname();
@@ -58,7 +60,10 @@ export default function BlogPreviewSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-          {posts.map((post, index) => (
+          {posts.map((post, index) => {
+            const postTitle = pickLocalized(post as unknown as Record<string, unknown>, 'title', locale);
+            const postAuthor = pickLocalized(post as unknown as Record<string, unknown>, 'author', locale);
+            return (
             <motion.div
               key={post.id}
               initial={{ opacity: 0, y: 30 }}
@@ -69,25 +74,32 @@ export default function BlogPreviewSection() {
             >
               <Link href={`/${locale}/blog/${post.id}`}>
                 <div className="bg-gray-50 dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all h-full">
-                  <div className="h-48 bg-gradient-to-br from-primary-500 to-secondary-500 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                  <div className="h-48 relative overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={postTitle}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1 bg-white/90 dark:bg-gray-900/90 rounded-full text-sm font-semibold">
-                        {post.category}
+                        {pickLocalized(post as unknown as Record<string, unknown>, 'category', locale)}
                       </span>
                     </div>
                   </div>
                   <div className="p-6">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
-                      {post.title}
+                      {postTitle}
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                      {post.excerpt}
+                      {pickLocalized(post as unknown as Record<string, unknown>, 'excerpt', locale)}
                     </p>
                     <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <User size={16} />
-                        <span>{post.author}</span>
+                        <span>{postAuthor}</span>
                       </div>
                       <div className="flex items-center space-x-2 space-x-reverse">
                         <Calendar size={16} />
@@ -98,7 +110,8 @@ export default function BlogPreviewSection() {
                 </div>
               </Link>
             </motion.div>
-          ))}
+          );
+          })}
         </div>
 
         <motion.div

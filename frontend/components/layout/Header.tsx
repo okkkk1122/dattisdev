@@ -17,6 +17,8 @@ const translations: Record<string, Record<string, string>> = {
     services: 'خدمات',
     portfolio: 'نمونه کارها',
     blog: 'بلاگ',
+    pricing: 'تعرفه‌ها',
+    faq: 'سوالات متداول',
     contact: 'تماس با ما',
     login: 'ورود',
     register: 'ثبت نام',
@@ -27,7 +29,9 @@ const translations: Record<string, Record<string, string>> = {
     services: 'Services',
     portfolio: 'Portfolio',
     blog: 'Blog',
-    contact: 'Contact Us',
+    pricing: 'Pricing',
+    faq: 'FAQ',
+    contact: 'Contact',
     login: 'Login',
     register: 'Register',
   },
@@ -37,6 +41,8 @@ const translations: Record<string, Record<string, string>> = {
     services: 'الخدمات',
     portfolio: 'معرض الأعمال',
     blog: 'المدونة',
+    pricing: 'الأسعار',
+    faq: 'الأسئلة الشائعة',
     contact: 'اتصل بنا',
     login: 'تسجيل الدخول',
     register: 'التسجيل',
@@ -64,12 +70,14 @@ export default function Header() {
     { href: `/${locale}/services`, label: t.services },
     { href: `/${locale}/portfolio`, label: t.portfolio },
     { href: `/${locale}/blog`, label: t.blog },
+    { href: `/${locale}/pricing`, label: t.pricing },
+    { href: `/${locale}/faq`, label: t.faq },
     { href: `/${locale}/contact`, label: t.contact },
   ];
 
   return (
     <motion.header
-      initial={{ y: -100 }}
+      initial={false}
       animate={{ y: 0 }}
       className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
@@ -78,9 +86,9 @@ export default function Header() {
       }`}
     >
       <nav className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-16 gap-3 min-w-0">
           {/* Logo */}
-          <Link href={`/${locale}`} className="flex items-center space-x-2">
+          <Link href={`/${locale}`} className="flex items-center gap-2 shrink-0">
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"
@@ -90,24 +98,23 @@ export default function Header() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-6 space-x-reverse">
-            {menuItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors relative group"
-              >
-                {item.label}
-                <motion.span
-                  className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 group-hover:w-full transition-all duration-300"
-                  layoutId="underline"
-                />
-              </Link>
-            ))}
+          <div className="hidden lg:flex flex-1 items-center justify-center min-w-0 px-2">
+            <div className="flex items-center flex-nowrap gap-x-5 xl:gap-x-7">
+              {menuItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="shrink-0 whitespace-nowrap px-1.5 text-sm xl:text-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors relative group"
+                >
+                  {item.label}
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 group-hover:w-full transition-all duration-300" />
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* Right Side Actions */}
-          <div className="hidden md:flex items-center space-x-4 space-x-reverse">
+          <div className="hidden lg:flex items-center gap-3 shrink-0">
             <DarkModeToggle />
             <LanguageSwitcher />
             <SocialLinks />
@@ -123,7 +130,7 @@ export default function Header() {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 dark:text-white"
+            className="lg:hidden p-2 dark:text-white shrink-0"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -137,7 +144,7 @@ export default function Header() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-gray-200 dark:border-gray-700"
+              className="lg:hidden border-t border-gray-200 dark:border-gray-700"
             >
               <div className="flex flex-col space-y-4 py-4">
                 {menuItems.map((item) => (
@@ -151,7 +158,7 @@ export default function Header() {
                   </Link>
                 ))}
                 <div className="px-4 space-y-2 flex flex-col">
-                  <div className="flex items-center space-x-2 space-x-reverse">
+                  <div className="flex items-center gap-2">
                     <DarkModeToggle />
                     <LanguageSwitcher />
                     <SocialLinks />

@@ -1,20 +1,32 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Moon, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useThemeStore } from '@/lib/stores/theme';
-import { useEffect } from 'react';
 
 export default function DarkModeToggle() {
   const { theme, toggleTheme } = useThemeStore();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     if (theme === 'dark') {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, [theme]);
+  }, [theme, mounted]);
+
+  if (!mounted) {
+    return (
+      <div className="p-2 w-9 h-9 rounded-lg bg-gray-100 dark:bg-gray-800" aria-hidden />
+    );
+  }
 
   return (
     <motion.button

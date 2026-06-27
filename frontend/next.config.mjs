@@ -8,6 +8,9 @@ const nextConfig = {
   output: 'standalone',
   images: {
     domains: ['localhost'],
+    dangerouslyAllowSVG: true,
+    contentDispositionType: 'attachment',
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       {
         protocol: 'https',
@@ -16,10 +19,13 @@ const nextConfig = {
     ],
   },
   async rewrites() {
+    const apiOrigin =
+      process.env.INTERNAL_API_URL ||
+      (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3002/api').replace(/\/api\/?$/, '');
     return [
       {
         source: '/api/:path*',
-        destination: `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/:path*`,
+        destination: `${apiOrigin}/api/:path*`,
       },
     ];
   },

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bg-security" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="55%" stop-color="#1e40af"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <radialGradient id="glow-security" cx="70%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg-security)"/>
+  <rect width="800" height="600" fill="url(#glow-security)"/>
+  <path d="M400 120 L520 180 V300 C520 380 400 440 400 440 C400 440 280 380 280 300 V180 Z" fill="#3b82f6" opacity="0.2"/><path d="M400 200 L460 240 V310 C460 350 400 380 400 380 C400 380 340 350 340 310 V240 Z" fill="#3b82f6" opacity="0.35"/>
+</svg>

@@ -2,6 +2,8 @@ import { create } from 'zustand';
 
 type Theme = 'light' | 'dark';
 
+export type { Theme };
+
 interface ThemeStore {
   theme: Theme;
   toggleTheme: () => void;
@@ -9,7 +11,7 @@ interface ThemeStore {
 }
 
 export const useThemeStore = create<ThemeStore>((set) => ({
-  theme: (typeof window !== 'undefined' && localStorage.getItem('dattisdev-theme') as Theme) || 'light',
+  theme: 'light',
   toggleTheme: () =>
     set((state) => {
       const newTheme = state.theme === 'light' ? 'dark' : 'light';

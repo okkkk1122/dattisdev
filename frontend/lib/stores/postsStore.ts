@@ -1,17 +1,30 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { mockPosts } from '@/lib/data/mockData';
+import { syncStoreToBackend } from '@/lib/hooks/useContentSync';
 
 export interface Post {
   id: number;
   title: string;
+  titleEn?: string;
+  titleAr?: string;
   excerpt: string;
+  excerptEn?: string;
+  excerptAr?: string;
   author: string;
+  authorEn?: string;
+  authorAr?: string;
   date: string;
   category: string;
+  categoryEn?: string;
+  categoryAr?: string;
   tags: string[];
+  tagsEn?: string[];
+  tagsAr?: string[];
   image: string;
   content?: string;
+  contentEn?: string;
+  contentAr?: string;
   status: 'منتشر شده' | 'پیش‌نویس';
   views: number;
 }
@@ -39,6 +52,7 @@ export const usePostsStore = create<PostsState>()(
         set((state) => ({
           posts: [newPost, ...state.posts],
         }));
+        syncStoreToBackend('posts', get().posts);
       },
       updatePost: (id, updatedPost) => {
         set((state) => ({
@@ -46,11 +60,13 @@ export const usePostsStore = create<PostsState>()(
             post.id === id ? { ...post, ...updatedPost } : post
           ),
         }));
+        syncStoreToBackend('posts', get().posts);
       },
       deletePost: (id) => {
         set((state) => ({
           posts: state.posts.filter((post) => post.id !== id),
         }));
+        syncStoreToBackend('posts', get().posts);
       },
       getPost: (id) => {
         return get().posts.find((post) => post.id === id);
@@ -60,9 +76,9 @@ export const usePostsStore = create<PostsState>()(
       },
     }),
     {
-      name: 'dattisdev-posts-storage',
+      name: 'dattisdev-posts-storage-v3',
       storage: typeof window !== 'undefined' ? createJSONStorage(() => localStorage) : undefined,
-      skipHydration: false,
+      skipHydration: true,
     }
   )
 );

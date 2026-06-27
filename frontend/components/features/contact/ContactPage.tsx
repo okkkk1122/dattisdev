@@ -6,6 +6,9 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from 'lucide-react';
 import Button from '@/components/common/Button';
+import { emailApi } from '@/lib/api/content';
+import toast from 'react-hot-toast';
+import Image from 'next/image';
 
 const translations: Record<string, Record<string, any>> = {
   fa: {
@@ -103,12 +106,15 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
-      alert(t.form.success);
+    try {
+      await emailApi.sendContact({ ...formData, locale });
+      toast.success(t.form.success);
       setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
-    }, 2000);
+    } catch {
+      toast.error(t.form.error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -263,10 +269,21 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Map Placeholder */}
-            <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-xl">
-              <div className="h-64 bg-gradient-to-br from-primary-200 to-secondary-200 dark:from-primary-900 dark:to-secondary-900 rounded-lg flex items-center justify-center">
-                <MapPin className="text-primary-600" size={64} />
+            {/* Map */}
+            <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-xl overflow-hidden">
+              <div className="relative h-64 rounded-lg overflow-hidden">
+                <Image
+                  src="/images/map.jpg"
+                  alt="Map"
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-primary-900/30 flex items-center justify-center">
+                  <div className="bg-white/90 dark:bg-gray-900/90 px-4 py-2 rounded-lg flex items-center gap-2">
+                    <MapPin className="text-primary-600" size={20} />
+                    <span className="text-sm font-medium">{t.info.addressValue}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </motion.div>

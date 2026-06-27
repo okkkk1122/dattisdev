@@ -1,13 +1,18 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { mockProjects } from '@/lib/data/mockData';
+import { syncStoreToBackend } from '@/lib/hooks/useContentSync';
 
 export interface Project {
   id: number;
   title: string;
+  titleEn?: string;
+  titleAr?: string;
   category: 'web' | 'app' | 'bot' | 'software' | string;
   image: string;
   description: string;
+  descriptionEn?: string;
+  descriptionAr?: string;
   technologies: string[];
   link: string;
   status: 'فعال' | 'غیرفعال' | string;
@@ -38,6 +43,7 @@ export const usePortfolioStore = create<PortfolioState>()(
         set((state) => ({
           projects: [newProject, ...state.projects],
         }));
+        syncStoreToBackend('portfolio', get().projects);
       },
       updateProject: (id, updatedProject) => {
         set((state) => ({
@@ -45,11 +51,13 @@ export const usePortfolioStore = create<PortfolioState>()(
             project.id === id ? { ...project, ...updatedProject } : project
           ),
         }));
+        syncStoreToBackend('portfolio', get().projects);
       },
       deleteProject: (id) => {
         set((state) => ({
           projects: state.projects.filter((project) => project.id !== id),
         }));
+        syncStoreToBackend('portfolio', get().projects);
       },
       getProject: (id) => {
         return get().projects.find((project) => project.id === id);
@@ -59,9 +67,9 @@ export const usePortfolioStore = create<PortfolioState>()(
       },
     }),
     {
-      name: 'dattisdev-portfolio-storage',
+      name: 'dattisdev-portfolio-storage-v3',
       storage: typeof window !== 'undefined' ? createJSONStorage(() => localStorage) : undefined,
-      skipHydration: false,
+      skipHydration: true,
     }
   )
 );

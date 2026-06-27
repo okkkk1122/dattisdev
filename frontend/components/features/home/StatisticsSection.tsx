@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import { Code, Users, Award, Zap } from 'lucide-react';
+import ThemedCard from '@/components/common/ThemedCard';
+import type { BackgroundKey } from '@/lib/data/backgroundImages';
 
 const translations: Record<string, Record<string, string>> = {
   fa: {
@@ -31,6 +33,7 @@ interface StatItem {
   value: number;
   label: string;
   suffix?: string;
+  bg: BackgroundKey;
 }
 
 export default function StatisticsSection() {
@@ -41,10 +44,10 @@ export default function StatisticsSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   const stats: StatItem[] = [
-    { icon: Code, value: 150, label: t.projects, suffix: '+' },
-    { icon: Users, value: 80, label: t.clients, suffix: '+' },
-    { icon: Award, value: 5, label: t.experience, suffix: '+' },
-    { icon: Zap, value: 12, label: t.team, suffix: '+' },
+    { icon: Code, value: 150, label: t.projects, suffix: '+', bg: 'portfolio' },
+    { icon: Users, value: 80, label: t.clients, suffix: '+', bg: 'testimonial' },
+    { icon: Award, value: 5, label: t.experience, suffix: '+', bg: 'experience' },
+    { icon: Zap, value: 12, label: t.team, suffix: '+', bg: 'about' },
   ];
 
   return (
@@ -60,6 +63,7 @@ export default function StatisticsSection() {
                 value={stat.value}
                 label={stat.label}
                 suffix={stat.suffix}
+                bg={stat.bg}
                 isInView={isInView}
                 delay={index * 0.1}
               />
@@ -76,6 +80,7 @@ function StatCard({
   value,
   label,
   suffix,
+  bg,
   isInView,
   delay,
 }: StatItem & { isInView: boolean; delay: number }) {
@@ -112,25 +117,28 @@ function StatCard({
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay, duration: 0.5 }}
-      className="text-center p-6 bg-white dark:bg-gray-900 rounded-xl shadow-lg hover:shadow-xl transition-shadow"
     >
-      <motion.div
-        className="inline-flex items-center justify-center w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-full mb-4"
-        whileHover={{ scale: 1.1, rotate: 360 }}
-        transition={{ duration: 0.5 }}
-      >
-        <Icon className="text-primary-600 dark:text-primary-400" size={32} />
-      </motion.div>
-      <motion.div
-        className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2"
-        initial={{ scale: 0 }}
-        animate={isInView ? { scale: 1 } : {}}
-        transition={{ delay: delay + 0.2, type: 'spring' }}
-      >
-        {mounted ? count : 0}
-        {suffix}
-      </motion.div>
-      <p className="text-gray-600 dark:text-gray-400">{label}</p>
+      <ThemedCard background={bg} className="text-center">
+        <div className="p-6">
+          <motion.div
+            className="inline-flex items-center justify-center w-16 h-16 bg-primary-600/90 rounded-full mb-4 shadow-lg"
+            whileHover={{ scale: 1.1, rotate: 360 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Icon className="text-white" size={32} />
+          </motion.div>
+          <motion.div
+            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2"
+            initial={{ scale: 0 }}
+            animate={isInView ? { scale: 1 } : {}}
+            transition={{ delay: delay + 0.2, type: 'spring' }}
+          >
+            {mounted ? count : 0}
+            {suffix}
+          </motion.div>
+          <p className="text-gray-700 dark:text-gray-300 font-medium">{label}</p>
+        </div>
+      </ThemedCard>
     </motion.div>
   );
 }

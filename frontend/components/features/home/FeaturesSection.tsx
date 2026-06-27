@@ -3,6 +3,8 @@
 import { usePathname } from 'next/navigation';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import ThemedCard from '@/components/common/ThemedCard';
+import type { BackgroundKey } from '@/lib/data/backgroundImages';
 import { Zap, Shield, Code, Heart, Rocket, Target } from 'lucide-react';
 
 const translations: Record<string, Record<string, any>> = {
@@ -92,13 +94,13 @@ const translations: Record<string, Record<string, any>> = {
   },
 };
 
-const features = [
-  { icon: Zap, key: 'speed' },
-  { icon: Shield, key: 'security' },
-  { icon: Code, key: 'quality' },
-  { icon: Heart, key: 'support' },
-  { icon: Rocket, key: 'innovation' },
-  { icon: Target, key: 'experience' },
+const features: { icon: typeof Zap; key: string; bg: BackgroundKey }[] = [
+  { icon: Zap, key: 'speed', bg: 'speed' },
+  { icon: Shield, key: 'security', bg: 'security' },
+  { icon: Code, key: 'quality', bg: 'quality' },
+  { icon: Heart, key: 'support', bg: 'support' },
+  { icon: Rocket, key: 'innovation', bg: 'innovation' },
+  { icon: Target, key: 'experience', bg: 'experience' },
 ];
 
 export default function FeaturesSection() {
@@ -137,25 +139,25 @@ export default function FeaturesSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: index * 0.1 }}
-                className="p-6 bg-gray-50 dark:bg-gray-800 rounded-xl hover:shadow-xl transition-all group"
                 whileHover={{ y: -5 }}
               >
-                <motion.div
-                  className="inline-flex items-center justify-center w-14 h-14 bg-primary-100 dark:bg-primary-900 rounded-lg mb-4 group-hover:bg-primary-600 dark:group-hover:bg-primary-700 transition-colors"
-                  whileHover={{ rotate: 360, scale: 1.1 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  <Icon
-                    className="text-primary-600 dark:text-primary-400 group-hover:text-white transition-colors"
-                    size={28}
-                  />
-                </motion.div>
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  {featureData.title}
-                </h3>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {featureData.description}
-                </p>
+                <ThemedCard background={feature.bg} className="h-full group">
+                  <div className="p-6">
+                    <motion.div
+                      className="inline-flex items-center justify-center w-14 h-14 bg-primary-600/90 rounded-lg mb-4 shadow-lg"
+                      whileHover={{ rotate: 360, scale: 1.1 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Icon className="text-white" size={28} />
+                    </motion.div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                      {featureData.title}
+                    </h3>
+                    <p className="text-gray-700 dark:text-gray-300">
+                      {featureData.description}
+                    </p>
+                  </div>
+                </ThemedCard>
               </motion.div>
             );
           })}

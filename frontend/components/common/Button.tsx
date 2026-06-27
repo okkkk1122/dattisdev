@@ -43,6 +43,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       <motion.button
         ref={ref}
         type={type}
+        initial={false}
         className={cn(
           'inline-flex items-center justify-center rounded-lg font-medium transition-colors',
           'focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500',

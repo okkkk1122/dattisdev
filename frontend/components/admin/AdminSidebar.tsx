@@ -12,6 +12,10 @@ import {
   Settings,
   Ticket,
   BarChart3,
+  Star,
+  DollarSign,
+  HelpCircle,
+  Mail,
 } from 'lucide-react';
 
 const menuItems = [
@@ -19,7 +23,11 @@ const menuItems = [
   { icon: Users, label: 'کاربران', href: '/admin/users' },
   { icon: FileText, label: 'مقالات', href: '/admin/posts' },
   { icon: Briefcase, label: 'نمونه کارها', href: '/admin/portfolio' },
+  { icon: Star, label: 'نظرات', href: '/admin/testimonials' },
+  { icon: DollarSign, label: 'تعرفه‌ها', href: '/admin/pricing' },
+  { icon: HelpCircle, label: 'سوالات متداول', href: '/admin/faq' },
   { icon: Ticket, label: 'تیکت‌ها', href: '/admin/tickets' },
+  { icon: Mail, label: 'ایمیل (Haraka)', href: '/admin/email' },
   { icon: MessageSquare, label: 'چت', href: '/admin/chat' },
   { icon: BarChart3, label: 'آمار', href: '/admin/analytics' },
   { icon: Settings, label: 'تنظیمات', href: '/admin/settings' },

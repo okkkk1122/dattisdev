@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { ArrowLeft, Mail, Phone } from 'lucide-react';
+import { seededRange } from '@/lib/utils/seeded';
 import Button from '@/components/common/Button';
 
 const translations: Record<string, Record<string, string>> = {
@@ -47,17 +48,17 @@ export default function CTASection() {
             key={i}
             className="absolute w-2 h-2 bg-white/20 rounded-full"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
+              left: `${seededRange(i * 3 + 1, 0, 100)}%`,
+              top: `${seededRange(i * 3 + 2, 0, 100)}%`,
             }}
             animate={{
               y: [0, -30, 0],
               opacity: [0.2, 0.5, 0.2],
             }}
             transition={{
-              duration: 3 + Math.random() * 2,
+              duration: seededRange(i * 5 + 3, 3, 5),
               repeat: Infinity,
-              delay: Math.random() * 2,
+              delay: seededRange(i * 5 + 4, 0, 2),
             }}
           />
         ))}

@@ -4,8 +4,9 @@ import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Code, Smartphone, Bot, Monitor } from 'lucide-react';
+import Image from 'next/image';
 import { usePortfolioStore } from '@/lib/stores/portfolioStore';
-import { categoryMap } from '@/lib/data/mockData';
+import { getPortfolioCategoryLabel, pickLocalized } from '@/lib/i18n/localeHelpers';
 
 const translations: Record<string, Record<string, any>> = {
   fa: {
@@ -126,13 +127,20 @@ export default function PortfolioPage() {
                   className="group"
                 >
                   <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all h-full">
-                    <div className="relative h-64 bg-gradient-to-br from-primary-500 to-secondary-500 overflow-hidden">
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors" />
+                    <div className="relative h-64 overflow-hidden">
+                      <Image
+                        src={project.image}
+                        alt={pickLocalized(project as unknown as Record<string, unknown>, 'title', locale)}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors" />
                       <div className="absolute top-4 left-4">
                         <div className="flex items-center space-x-2 space-x-reverse px-3 py-1 bg-white/90 dark:bg-gray-900/90 rounded-full">
                           <Icon size={20} className="text-primary-600" />
                           <span className="text-sm font-semibold">
-                            {categoryMap[project.category as keyof typeof categoryMap]}
+                            {getPortfolioCategoryLabel(project.category, locale)}
                           </span>
                         </div>
                       </div>
@@ -150,10 +158,10 @@ export default function PortfolioPage() {
                     </div>
                     <div className="p-6">
                       <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                        {project.title}
+                        {pickLocalized(project as unknown as Record<string, unknown>, 'title', locale)}
                       </h3>
                       <p className="text-gray-600 dark:text-gray-400 mb-4">
-                        {project.description}
+                        {pickLocalized(project as unknown as Record<string, unknown>, 'description', locale)}
                       </p>
                       <div className="flex flex-wrap gap-2 mb-4">
                         {project.technologies.map((tech, i) => (

@@ -34,9 +34,9 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['Vazir', 'Tahoma', 'Inter', 'system-ui', 'sans-serif'],
-        arabic: ['Cairo', 'Tajawal', 'sans-serif'],
-        english: ['Inter', 'Roboto', 'sans-serif'],
+        sans: ['var(--font-vazirmatn)', 'Tahoma', 'system-ui', 'sans-serif'],
+        vazir: ['var(--font-vazirmatn)', 'Tahoma', 'sans-serif'],
+        inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bg-contact" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1d4ed8"/>
+      <stop offset="55%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#93c5fd"/>
+    </linearGradient>
+    <radialGradient id="glow-contact" cx="70%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg-contact)"/>
+  <rect width="800" height="600" fill="url(#glow-contact)"/>
+  <rect x="250" y="180" width="300" height="200" rx="12" fill="#93c5fd" opacity="0.2"/><polyline points="250,180 400,300 550,180" fill="none" stroke="#93c5fd" stroke-width="6" opacity="0.35"/>
+</svg>

@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
-import { enUS, Locale } from 'date-fns/locale';
+import { enUS, arSA, faIR, type Locale } from 'date-fns/locale';
 
-const locales: Record<string, Locale> = { 
-  fa: enUS, // Fallback to English for Persian
-  en: enUS, 
-  ar: enUS, // Fallback to English for Arabic
+const locales: Record<string, Locale> = {
+  fa: faIR,
+  en: enUS,
+  ar: arSA,
 };
 
 interface ChatMessageProps {

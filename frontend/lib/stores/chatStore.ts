@@ -1,5 +1,11 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
+import {
+  getChatTranslations,
+  getDefaultSessionId,
+  isDefaultWelcomeMessage,
+} from '@/lib/i18n/chatTranslations';
+import { resolveLocale } from '@/lib/i18n/localeHelpers';
 
 // Event system for real-time updates across components
 class ChatEventEmitter {
@@ -32,7 +38,7 @@ export const chatEventEmitter = new ChatEventEmitter();
 // Listen to storage changes for real-time updates across tabs/windows
 if (typeof window !== 'undefined') {
   window.addEventListener('storage', (e) => {
-    if (e.key === 'dattisdev-chat-storage') {
+    if (e.key === 'dattisdev-chat-storage-v3') {
       chatEventEmitter.emit('storage-update', JSON.parse(e.newValue || '{}'));
     }
   });
@@ -66,31 +72,59 @@ interface ChatState {
   setActiveSession: (sessionId: string) => void;
   markAsRead: (sessionId: string) => void;
   deleteSession: (sessionId: string) => void;
-  getOrCreateDefaultSession: () => string;
+  getOrCreateDefaultSession: (locale: string) => string;
+  syncLocaleSession: (locale: string) => string;
 }
 
-const getDefaultSession = (): ChatSession => ({
-  id: 'default',
-  userName: 'کاربر عمومی',
-  lastMessage: 'سلام! من دستیار هوشمند داتیس‌دِو هستم. چطور می‌تونم کمکتون کنم؟',
-  lastMessageTime: new Date().toISOString(),
-  unread: 0,
-  messages: [
-    {
-      id: 1,
-      text: 'سلام! من دستیار هوشمند داتیس‌دِو هستم. چطور می‌تونم کمکتون کنم؟',
-      sender: 'ai',
-      timestamp: new Date().toISOString(),
-      chatId: 'default',
-    },
-  ],
+const createWelcomeMessage = (sessionId: string, locale: string): ChatMessage => ({
+  id: 1,
+  text: getChatTranslations(locale).response,
+  sender: 'ai',
+  timestamp: new Date().toISOString(),
+  chatId: sessionId,
 });
+
+const buildDefaultSession = (locale: string): ChatSession => {
+  const loc = resolveLocale(locale);
+  const t = getChatTranslations(loc);
+  const id = getDefaultSessionId(loc);
+  const welcome = t.response;
+  return {
+    id,
+    userName: t.userName,
+    lastMessage: welcome,
+    lastMessageTime: new Date().toISOString(),
+    unread: 0,
+    messages: [createWelcomeMessage(id, loc)],
+  };
+};
+
+const isWelcomeOnlySession = (session: ChatSession): boolean => {
+  if (session.messages.length === 0) return true;
+  return (
+    session.messages.length === 1 &&
+    session.messages[0].sender === 'ai' &&
+    isDefaultWelcomeMessage(session.messages[0].text)
+  );
+};
+
+const localizeWelcomeSession = (session: ChatSession, locale: string): ChatSession => {
+  if (!isWelcomeOnlySession(session)) return session;
+  const t = getChatTranslations(locale);
+  const welcome = createWelcomeMessage(session.id, locale);
+  return {
+    ...session,
+    userName: t.userName,
+    lastMessage: t.response,
+    messages: [welcome],
+  };
+};
 
 export const useChatStore = create<ChatState>()(
   persist(
     (set, get) => ({
-      sessions: [getDefaultSession()],
-      activeSessionId: 'default',
+      sessions: [],
+      activeSessionId: null,
       addMessage: (sessionId, message) => {
         const { sessions, activeSessionId } = get();
         const session = sessions.find((s) => s.id === sessionId);
@@ -172,7 +206,7 @@ export const useChatStore = create<ChatState>()(
           activeSessionId === sessionId
             ? remainingSessions.length > 0
               ? remainingSessions[0].id
-              : 'default'
+              : null
             : activeSessionId;
         
         set({
@@ -180,23 +214,36 @@ export const useChatStore = create<ChatState>()(
           activeSessionId: newActiveSessionId,
         });
       },
-      getOrCreateDefaultSession: () => {
+      getOrCreateDefaultSession: (locale) => {
+        return get().syncLocaleSession(locale);
+      },
+      syncLocaleSession: (locale) => {
+        const sessionId = getDefaultSessionId(locale);
         const { sessions } = get();
-        const defaultSession = sessions.find((s) => s.id === 'default');
-        if (defaultSession) return 'default';
+        const withoutLegacy = sessions.filter((s) => s.id !== 'default');
 
-        const session = getDefaultSession();
-        set((state) => ({
-          sessions: [session, ...state.sessions],
-          activeSessionId: 'default',
-        }));
-        return 'default';
+        let session = withoutLegacy.find((s) => s.id === sessionId);
+        let nextSessions = withoutLegacy;
+
+        if (!session) {
+          session = buildDefaultSession(locale);
+          nextSessions = [...withoutLegacy, session];
+        } else {
+          const localized = localizeWelcomeSession(session, locale);
+          if (localized !== session) {
+            nextSessions = withoutLegacy.map((s) => (s.id === sessionId ? localized : s));
+            session = localized;
+          }
+        }
+
+        set({ sessions: nextSessions, activeSessionId: sessionId });
+        return sessionId;
       },
     }),
     {
-      name: 'dattisdev-chat-storage',
+      name: 'dattisdev-chat-storage-v3',
       storage: typeof window !== 'undefined' ? createJSONStorage(() => localStorage) : undefined,
-      skipHydration: false,
+      skipHydration: true,
     }
   )
 );

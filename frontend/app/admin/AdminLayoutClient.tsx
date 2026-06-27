@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import AdminSidebar from '@/components/admin/AdminSidebar';
 import AdminHeader from '@/components/admin/AdminHeader';
+import ContentSyncProvider from '@/components/common/ContentSyncProvider';
 import { Toaster } from 'react-hot-toast';
 import { useThemeStore } from '@/lib/stores/theme';
 
@@ -38,7 +39,9 @@ export default function AdminLayoutClient({
       <AdminHeader />
       <div className="flex pt-16">
         <AdminSidebar />
-        <main className="flex-1 p-8 mr-64">{children}</main>
+        <main className="flex-1 p-8 mr-64">
+          <ContentSyncProvider>{children}</ContentSyncProvider>
+        </main>
       </div>
       <Toaster position="top-center" />
     </div>

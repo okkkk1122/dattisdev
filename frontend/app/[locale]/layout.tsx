@@ -1,14 +1,21 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
-import ChatWidget from '@/components/features/chat/ChatWidget';
-import BackToTop from '@/components/common/BackToTop';
-import LoadingScreen from '@/components/common/LoadingScreen';
-import { Toaster } from 'react-hot-toast';
-import { useThemeStore } from '@/lib/stores/theme';
+import { Vazirmatn, Inter } from 'next/font/google';
+import { setRequestLocale } from 'next-intl/server';
+import ClientLocaleLayout from './ClientLocaleLayout';
 import '../globals.css';
+
+const vazirmatn = Vazirmatn({
+  subsets: ['arabic', 'latin'],
+  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-vazirmatn',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-inter',
+  display: 'swap',
+});
 
 const locales = ['fa', 'en', 'ar'] as const;
 
@@ -19,37 +26,29 @@ export default function LocaleLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  const [mounted, setMounted] = useState(false);
-  const { theme } = useThemeStore();
+  const isRtl = locale === 'ar' || locale === 'fa';
+  const isEnglish = locale === 'en';
 
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  setRequestLocale(locale);
 
-  useEffect(() => {
-    if (mounted && typeof window !== 'undefined') {
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    }
-  }, [theme, mounted]);
-
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale as (typeof locales)[number])) {
     return null;
   }
 
   return (
-    <html lang={locale} dir={locale === 'ar' || locale === 'fa' ? 'rtl' : 'ltr'}>
-      <body className="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors">
-        <LoadingScreen />
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ChatWidget />
-        <BackToTop />
-        <Toaster position="top-center" />
+    <html
+      lang={locale}
+      dir={isRtl ? 'rtl' : 'ltr'}
+      className={`${vazirmatn.variable} ${inter.variable}`}
+      suppressHydrationWarning
+    >
+      <body
+        className={`${
+          isEnglish ? inter.className : vazirmatn.className
+        } bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors antialiased`}
+        suppressHydrationWarning
+      >
+        <ClientLocaleLayout locale={locale}>{children}</ClientLocaleLayout>
       </body>
     </html>
   );

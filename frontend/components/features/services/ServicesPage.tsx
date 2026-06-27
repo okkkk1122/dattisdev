@@ -5,7 +5,13 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Monitor, Smartphone, Bot, Code, Check, ArrowLeft } from 'lucide-react';
 import Button from '@/components/common/Button';
+import ThemedCard from '@/components/common/ThemedCard';
+import type { BackgroundKey } from '@/lib/data/backgroundImages';
+import { serviceImages } from '@/lib/data/sectionImages';
+import Image from 'next/image';
 import Link from 'next/link';
+import { usePricingStore } from '@/lib/stores/pricingStore';
+import { formatStartingPrice } from '@/lib/i18n/localeHelpers';
 
 const translations: Record<string, Record<string, any>> = {
   fa: {
@@ -15,19 +21,19 @@ const translations: Record<string, Record<string, any>> = {
       title: 'طراحی سایت',
       description: 'طراحی سایت‌های مدرن، واکنش‌گرا و بهینه‌شده برای موتورهای جستجو',
       features: ['طراحی واکنش‌گرا', 'بهینه‌سازی SEO', 'سرعت بالا', 'امنیت', 'پشتیبانی کامل'],
-      price: 'از 5,000,000 تومان',
+      price: '',
     },
     appDevelopment: {
       title: 'توسعه اپلیکیشن',
       description: 'توسعه اپلیکیشن‌های موبایل برای iOS و Android',
       features: ['iOS و Android', 'طراحی UX/UI', 'عملکرد بالا', 'پشتیبانی', 'بروزرسانی'],
-      price: 'از 10,000,000 تومان',
+      price: '',
     },
     botDevelopment: {
       title: 'توسعه ربات',
       description: 'ربات‌های هوشمند برای تلگرام، واتساپ و سایر پلتفرم‌ها',
       features: ['ربات تلگرام', 'ربات واتساپ', 'هوش مصنوعی', 'اتوماسیون', 'پشتیبانی'],
-      price: 'از 2,000,000 تومان',
+      price: '',
     },
     softwareDevelopment: {
       title: 'توسعه نرم‌افزار',
@@ -44,19 +50,19 @@ const translations: Record<string, Record<string, any>> = {
       title: 'Web Design',
       description: 'Modern, responsive and SEO-optimized website design',
       features: ['Responsive Design', 'SEO Optimization', 'High Speed', 'Security', 'Full Support'],
-      price: 'From $200',
+      price: '',
     },
     appDevelopment: {
       title: 'App Development',
       description: 'Mobile app development for iOS and Android',
       features: ['iOS & Android', 'UX/UI Design', 'High Performance', 'Support', 'Updates'],
-      price: 'From $500',
+      price: '',
     },
     botDevelopment: {
       title: 'Bot Development',
       description: 'Smart bots for Telegram, WhatsApp and other platforms',
       features: ['Telegram Bot', 'WhatsApp Bot', 'AI Integration', 'Automation', 'Support'],
-      price: 'From $100',
+      price: '',
     },
     softwareDevelopment: {
       title: 'Software Development',
@@ -73,19 +79,19 @@ const translations: Record<string, Record<string, any>> = {
       title: 'تصميم المواقع',
       description: 'تصميم مواقع حديثة ومتجاوبة ومحسّنة لمحركات البحث',
       features: ['تصميم متجاوب', 'تحسين SEO', 'سرعة عالية', 'الأمان', 'دعم كامل'],
-      price: 'من 200 دولار',
+      price: '',
     },
     appDevelopment: {
       title: 'تطوير التطبيقات',
       description: 'تطوير تطبيقات الهاتف المحمول لنظامي iOS و Android',
       features: ['iOS و Android', 'تصميم UX/UI', 'أداء عالي', 'الدعم', 'التحديثات'],
-      price: 'من 500 دولار',
+      price: '',
     },
     botDevelopment: {
       title: 'تطوير الروبوتات',
       description: 'روبوتات ذكية لتلجرام وواتساب ومنصات أخرى',
       features: ['روبوت تلجرام', 'روبوت واتساب', 'الذكاء الاصطناعي', 'الأتمتة', 'الدعم'],
-      price: 'من 100 دولار',
+      price: '',
     },
     softwareDevelopment: {
       title: 'تطوير البرمجيات',
@@ -97,19 +103,41 @@ const translations: Record<string, Record<string, any>> = {
   },
 };
 
-const services = [
-  { icon: Monitor, key: 'webDesign', color: 'from-blue-500 to-cyan-500' },
-  { icon: Smartphone, key: 'appDevelopment', color: 'from-purple-500 to-pink-500' },
-  { icon: Bot, key: 'botDevelopment', color: 'from-green-500 to-emerald-500' },
-  { icon: Code, key: 'softwareDevelopment', color: 'from-orange-500 to-red-500' },
+const servicePricingMap: Record<string, 'web' | 'app' | 'bot' | 'software'> = {
+  webDesign: 'web',
+  appDevelopment: 'app',
+  botDevelopment: 'bot',
+  softwareDevelopment: 'software',
+};
+
+const servicePriceFallback: Record<string, { priceRial: number; priceUsd: number } | null> = {
+  botDevelopment: { priceRial: 20000000, priceUsd: 100 },
+  softwareDevelopment: null,
+};
+
+const services: { icon: typeof Monitor; key: keyof typeof serviceImages; color: string; bg: BackgroundKey }[] = [
+  { icon: Monitor, key: 'webDesign', color: 'from-blue-500 to-cyan-500', bg: 'web' },
+  { icon: Smartphone, key: 'appDevelopment', color: 'from-purple-500 to-pink-500', bg: 'app' },
+  { icon: Bot, key: 'botDevelopment', color: 'from-green-500 to-emerald-500', bg: 'bot' },
+  { icon: Code, key: 'softwareDevelopment', color: 'from-orange-500 to-red-500', bg: 'software' },
 ];
 
 export default function ServicesPage() {
   const pathname = usePathname();
   const locale = pathname?.split('/')[1] || 'fa';
   const t = translations[locale] || translations.fa;
+  const { getPlansByService } = usePricingStore();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+
+  const getServicePrice = (serviceKey: string, staticFallback: string) => {
+    const serviceType = servicePricingMap[serviceKey];
+    const plans = serviceType ? getPlansByService(serviceType) : [];
+    if (plans.length) return formatStartingPrice(plans, locale, staticFallback);
+    const fallback = servicePriceFallback[serviceKey];
+    if (fallback) return formatStartingPrice([fallback], locale, staticFallback);
+    return staticFallback;
+  };
 
   return (
     <section ref={ref} className="py-20 bg-gray-50 dark:bg-gray-800 min-h-screen">
@@ -143,10 +171,20 @@ export default function ServicesPage() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -5 }}
-                className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl hover:shadow-2xl transition-all overflow-hidden"
               >
-                <div className={`h-32 bg-gradient-to-br ${service.color} flex items-center justify-center`}>
-                  <Icon className="text-white" size={64} />
+                <ThemedCard background={service.bg} className="h-full overflow-hidden">
+                <div className="relative h-48 overflow-hidden">
+                  <Image
+                    src={serviceImages[service.key]}
+                    alt={serviceData.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                  <div className="absolute inset-0 bg-black/40" />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Icon className="text-white relative z-10 drop-shadow-lg" size={64} />
+                  </div>
                 </div>
                 <div className="p-8">
                   <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -165,7 +203,7 @@ export default function ServicesPage() {
                   </ul>
                   <div className="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
                     <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
-                      {serviceData.price}
+                      {getServicePrice(service.key, serviceData.price)}
                     </span>
                     <Link href={`/${locale}/contact`}>
                       <Button>
@@ -175,6 +213,7 @@ export default function ServicesPage() {
                     </Link>
                   </div>
                 </div>
+                </ThemedCard>
               </motion.div>
             );
           })}

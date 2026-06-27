@@ -1,31 +1,93 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Save, Globe, Mail, Bell, Shield, Palette } from 'lucide-react';
+import { Save, Globe, Mail, Bell, Shield, Server, DollarSign } from 'lucide-react';
 import Button from '@/components/common/Button';
+import { contentApi, emailApi } from '@/lib/api/content';
+import toast from 'react-hot-toast';
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState({
     siteName: 'DattisDev',
     siteDescription: 'شرکت طراحی و توسعه نرم‌افزار',
-    email: 'info@dattisdev.com',
-    phone: '+98 21 1234 5678',
+    contactEmail: 'info@dattisdev.com',
+    contactPhone: '+98 21 1234 5678',
     address: 'تهران، خیابان ولیعصر',
+    smtpHost: 'haraka',
+    smtpPort: 25,
+    smtpUser: '',
+    smtpPass: '',
+    smtpFrom: 'info@dattisdev.com',
+    mailDomain: 'dattisdev.com',
+    harakaInboundSecret: '',
     notifications: true,
     emailNotifications: true,
     maintenanceMode: false,
-    theme: 'light',
+    usdToRialRate: 420000,
   });
+  const [loading, setLoading] = useState(true);
 
-  const handleChange = (key: string, value: any) => {
+  useEffect(() => {
+    contentApi
+      .getSettings()
+      .then(({ data }) => {
+        setSettings((prev) => ({
+          ...prev,
+          siteName: (data.siteName as string) || prev.siteName,
+          contactEmail: (data.contactEmail as string) || prev.contactEmail,
+          contactPhone: (data.contactPhone as string) || prev.contactPhone,
+          address: (data.address as string) || prev.address,
+          smtpHost: (data.smtpHost as string) || prev.smtpHost,
+          smtpPort: Number(data.smtpPort) || prev.smtpPort,
+          smtpUser: (data.smtpUser as string) || '',
+          smtpFrom: (data.smtpFrom as string) || prev.smtpFrom,
+          mailDomain: (data.mailDomain as string) || prev.mailDomain,
+          harakaInboundSecret: (data.harakaInboundSecret as string) || '',
+          usdToRialRate: Number(data.usdToRialRate) || prev.usdToRialRate,
+        }));
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleChange = (key: string, value: string | number | boolean) => {
     setSettings({ ...settings, [key]: value });
   };
 
-  const handleSave = () => {
-    // Save settings logic here
-    alert('تنظیمات با موفقیت ذخیره شد!');
+  const handleSave = async () => {
+    try {
+      await contentApi.updateSettings({
+        siteName: settings.siteName,
+        contactEmail: settings.contactEmail,
+        contactPhone: settings.contactPhone,
+        address: settings.address,
+        smtpHost: settings.smtpHost,
+        smtpPort: settings.smtpPort,
+        smtpUser: settings.smtpUser,
+        smtpPass: settings.smtpPass || undefined,
+        smtpFrom: settings.smtpFrom,
+        mailDomain: settings.mailDomain,
+        harakaInboundSecret: settings.harakaInboundSecret || undefined,
+        usdToRialRate: settings.usdToRialRate,
+      });
+      toast.success('تنظیمات با موفقیت ذخیره شد!');
+    } catch {
+      toast.error('خطا در ذخیره تنظیمات');
+    }
   };
+
+  const handleTestEmail = async () => {
+    try {
+      const { data } = await emailApi.testConnection();
+      if (data.success) toast.success('اتصال SMTP موفق بود');
+      else toast.error(data.message || 'SMTP پیکربندی نشده');
+    } catch {
+      toast.error('خطا در تست اتصال SMTP');
+    }
+  };
+
+  if (loading) return <div className="p-8 text-center">در حال بارگذاری...</div>;
 
   return (
     <div className="space-y-8">
@@ -79,6 +141,39 @@ export default function SettingsPage() {
           </div>
         </motion.div>
 
+        {/* Currency Settings */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12 }}
+          className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+        >
+          <div className="flex items-center space-x-3 space-x-reverse mb-6">
+            <DollarSign className="text-primary-600" size={24} />
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              تنظیمات واحد پول
+            </h2>
+          </div>
+          <div className="space-y-4">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              قیمت‌ها در سایت فارسی به ریال و در انگلیسی/عربی به دلار آمریکا نمایش داده می‌شوند.
+              نرخ تبدیل برای محاسبه خودکار قیمت دلار در مدیریت تعرفه‌ها استفاده می‌شود.
+            </p>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                نرخ تبدیل (۱ دلار = چند ریال)
+              </label>
+              <input
+                type="number"
+                min={1}
+                value={settings.usdToRialRate}
+                onChange={(e) => handleChange('usdToRialRate', Number(e.target.value) || 420000)}
+                className="w-full max-w-md px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+        </motion.div>
+
         {/* Contact Settings */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -99,8 +194,8 @@ export default function SettingsPage() {
               </label>
               <input
                 type="email"
-                value={settings.email}
-                onChange={(e) => handleChange('email', e.target.value)}
+                value={settings.contactEmail}
+                onChange={(e) => handleChange('contactEmail', e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
@@ -110,8 +205,8 @@ export default function SettingsPage() {
               </label>
               <input
                 type="tel"
-                value={settings.phone}
-                onChange={(e) => handleChange('phone', e.target.value)}
+                value={settings.contactPhone}
+                onChange={(e) => handleChange('contactPhone', e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
@@ -126,6 +221,84 @@ export default function SettingsPage() {
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
+          </div>
+        </motion.div>
+
+        {/* SMTP Settings */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg"
+        >
+          <div className="flex items-center space-x-3 space-x-reverse mb-6">
+            <Server className="text-primary-600" size={24} />
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              تنظیمات ایمیل (Haraka / SMTP)
+            </h2>
+          </div>
+          <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+            پیش‌فرض Docker: Host = <code className="text-primary-600">haraka</code> ، Port ={' '}
+            <code className="text-primary-600">25</code>. پورت‌های میزبان: 2525 (SMTP) و 2587
+            (Submission).
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                دامنه ایمیل
+              </label>
+              <input
+                type="text"
+                value={settings.mailDomain}
+                onChange={(e) => handleChange('mailDomain', e.target.value)}
+                placeholder="dattisdev.com"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                کلید امنیتی Inbound (Haraka)
+              </label>
+              <input
+                type="password"
+                value={settings.harakaInboundSecret}
+                onChange={(e) => handleChange('harakaInboundSecret', e.target.value)}
+                placeholder="change-me-inbound-secret"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SMTP Host</label>
+              <input type="text" value={settings.smtpHost} onChange={(e) => handleChange('smtpHost', e.target.value)}
+                placeholder="haraka"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SMTP Port</label>
+              <input type="number" value={settings.smtpPort} onChange={(e) => handleChange('smtpPort', Number(e.target.value))}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SMTP User</label>
+              <input type="text" value={settings.smtpUser} onChange={(e) => handleChange('smtpUser', e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">SMTP Password</label>
+              <input type="password" value={settings.smtpPass} onChange={(e) => handleChange('smtpPass', e.target.value)}
+                placeholder="••••••••"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" />
+            </div>
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">From Email</label>
+              <input type="email" value={settings.smtpFrom} onChange={(e) => handleChange('smtpFrom', e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" />
+            </div>
+          </div>
+          <div className="mt-4">
+            <Button variant="outline" onClick={handleTestEmail}>تست اتصال SMTP</Button>
           </div>
         </motion.div>
 
