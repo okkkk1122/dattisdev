@@ -1,16 +1,26 @@
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+COPY . .
+RUN npm run build
+
 FROM node:18-alpine
 
 WORKDIR /app
 
-# Install dependencies
-COPY package.json package-lock.json* ./
-RUN npm install
+ENV NODE_ENV=production
 
-# Copy app files
-COPY . .
+RUN apk add --no-cache wget
+
+COPY package.json package-lock.json* ./
+RUN npm ci --omit=dev
+
+COPY --from=builder /app/dist ./dist
 
 EXPOSE 3001
-EXPOSE 3002
 
-CMD ["npm", "run", "start:dev"]
-
+CMD ["node", "dist/main.js"]
