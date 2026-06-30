@@ -81,8 +81,8 @@ export default function Header() {
       animate={{ y: 0 }}
       className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/80 dark:bg-gray-900/80 backdrop-blur-md shadow-lg'
-          : 'bg-white dark:bg-gray-900 shadow-md'
+          ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-brand'
+          : 'bg-white dark:bg-slate-900 shadow-sm'
       }`}
     >
       <nav className="container mx-auto px-4">
@@ -91,7 +91,7 @@ export default function Header() {
           <Link href={`/${locale}`} className="flex items-center gap-2 shrink-0">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent"
+              className="text-2xl font-bold text-brand-gradient"
             >
               DattisDev
             </motion.div>
@@ -104,7 +104,7 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="shrink-0 whitespace-nowrap px-1.5 text-sm xl:text-base text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors relative group"
+                  className="shrink-0 whitespace-nowrap px-1.5 text-sm xl:text-base text-slate-700 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors relative group"
                 >
                   {item.label}
                   <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary-600 group-hover:w-full transition-all duration-300" />

@@ -49,19 +49,15 @@ export default function PortfolioPreviewSection() {
   }));
 
   return (
-    <section ref={ref} className="py-20 bg-white dark:bg-gray-900">
+    <section ref={ref} className="py-20 section-surface-muted">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h2 className="section-title">{t.title}</h2>
+          <p className="section-subtitle">{t.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -82,7 +78,7 @@ export default function PortfolioPreviewSection() {
                   className="object-cover group-hover:scale-110 transition-transform duration-500"
                   sizes="(max-width: 768px) 100vw, 25vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/85 via-gray-900/40 to-transparent group-hover:from-primary-900/90 transition-all" />
+                <div className="absolute inset-0 bg-gradient-to-t from-primary-900/85 via-slate-900/45 to-transparent group-hover:from-primary-800/90 transition-all" />
                 <div className="absolute inset-0 flex items-end p-6">
                   <div className="text-right w-full">
                     <span className="inline-block px-3 py-1 bg-white/90 rounded-full text-sm font-semibold mb-2 text-gray-900">

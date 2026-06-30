@@ -53,19 +53,15 @@ export default function TestimonialsSection() {
   };
 
   return (
-    <section ref={ref} className="py-20 bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-gray-800 dark:to-gray-900">
+    <section ref={ref} className="py-20 section-surface-tint">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h2 className="section-title">{t.title}</h2>
+          <p className="section-subtitle">{t.subtitle}</p>
         </motion.div>
 
         <div className="relative max-w-4xl mx-auto">
@@ -95,12 +91,12 @@ export default function TestimonialsSection() {
                     {Array.from({ length: testimonial.rating }).map((_, i) => (
                       <Star
                         key={i}
-                        className="text-yellow-400 fill-yellow-400"
+                        className="text-accent-400 fill-accent-400"
                         size={24}
                       />
                     ))}
                   </div>
-                  <p className="text-lg md:text-xl text-gray-700 dark:text-gray-300 mb-6 max-w-2xl">
+                  <p className="text-lg md:text-xl text-slate-700 dark:text-slate-300 mb-6 max-w-2xl">
                     "{pickLocalized(testimonial as unknown as Record<string, unknown>, 'text', locale)}"
                   </p>
                   <div className="flex items-center space-x-4 space-x-reverse">
@@ -111,7 +107,7 @@ export default function TestimonialsSection() {
                         className="w-16 h-16 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-xl font-bold">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center text-white text-xl font-bold">
                         {testimonial.name.charAt(0)}
                       </div>
                     )}

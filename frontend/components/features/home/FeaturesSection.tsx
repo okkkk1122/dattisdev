@@ -111,19 +111,15 @@ export default function FeaturesSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section className="py-20 bg-white dark:bg-gray-900">
+    <section className="py-20 section-surface">
       <div ref={ref} className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h2 className="section-title">{t.title}</h2>
+          <p className="section-subtitle">{t.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -144,16 +140,16 @@ export default function FeaturesSection() {
                 <ThemedCard background={feature.bg} className="h-full group">
                   <div className="p-6">
                     <motion.div
-                      className="inline-flex items-center justify-center w-14 h-14 bg-primary-600/90 rounded-lg mb-4 shadow-lg"
+                      className="icon-badge w-14 h-14 rounded-lg mb-4"
                       whileHover={{ rotate: 360, scale: 1.1 }}
                       transition={{ duration: 0.5 }}
                     >
                       <Icon className="text-white" size={28} />
                     </motion.div>
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
                       {featureData.title}
                     </h3>
-                    <p className="text-gray-700 dark:text-gray-300">
+                    <p className="text-slate-600 dark:text-slate-300">
                       {featureData.description}
                     </p>
                   </div>

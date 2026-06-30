@@ -26,10 +26,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const variants = {
-      primary: 'bg-primary-600 text-white hover:bg-primary-700',
-      secondary: 'bg-secondary-600 text-white hover:bg-secondary-700',
-      outline: 'border-2 border-primary-600 text-primary-600 hover:bg-primary-50',
-      ghost: 'text-primary-600 hover:bg-primary-50',
+      primary: 'bg-primary-600 text-white hover:bg-primary-700 shadow-brand',
+      secondary: 'bg-secondary-600 text-white hover:bg-secondary-700 shadow-brand',
+      outline: 'border-2 border-primary-600 text-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950/30',
+      ghost: 'text-primary-700 hover:bg-primary-50 dark:hover:bg-primary-950/30',
       danger: 'bg-red-600 text-white hover:bg-red-700',
     };
 

@@ -5,14 +5,75 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 222 47% 11%;
+    --brand-from: 214 71% 30%;
+    --brand-via: 214 66% 43%;
+    --brand-to: 234 42% 50%;
+    --text-body: 215 16% 35%;
+    --text-muted: 215 14% 47%;
+  }
+
+  .dark {
+    --foreground: 210 40% 98%;
+    --text-body: 214 20% 78%;
+    --text-muted: 215 16% 65%;
   }
 
   body {
-    @apply bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors;
+    @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
+  }
+}
+
+@layer components {
+  /* گرادیان یکپارچه Hero و CTA */
+  .bg-brand-gradient {
+    background: linear-gradient(
+      135deg,
+      #1a437f 0%,
+      #2563b5 48%,
+      #4a54b5 100%
+    );
+  }
+
+  .dark .bg-brand-gradient {
+    background: linear-gradient(
+      135deg,
+      #0f2744 0%,
+      #1e509a 45%,
+      #3f469a 100%
+    );
+  }
+
+  /* ریتم بخش‌ها — سطح‌های متناوب */
+  .section-surface {
+    @apply bg-white dark:bg-slate-900;
+  }
+
+  .section-surface-muted {
+    @apply bg-slate-50 dark:bg-slate-800/80;
+  }
+
+  .section-surface-tint {
+    @apply bg-gradient-to-br from-primary-50/60 via-white to-secondary-50/40 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800;
+  }
+
+  .section-title {
+    @apply text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4;
+  }
+
+  .section-subtitle {
+    @apply text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto;
+  }
+
+  .icon-badge {
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-br from-primary-600 to-secondary-600 text-white shadow-brand;
+  }
+
+  .text-brand-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent;
   }
 }
 
@@ -29,15 +90,15 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-100;
+  @apply bg-slate-100 dark:bg-slate-800;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-400 rounded-full;
+  @apply bg-slate-300 dark:bg-slate-600 rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-500;
+  @apply bg-slate-400 dark:bg-slate-500;
 }
 
 /* RTL Support */
@@ -172,11 +233,11 @@
   font-weight: 700;
   background: linear-gradient(
     125deg,
-    #fef9c3 0%,
-    #ffffff 22%,
-    #fde047 42%,
-    #ffffff 58%,
-    #fef08a 78%,
+    #fef3c7 0%,
+    #ffffff 28%,
+    #fcd34d 48%,
+    #ffffff 62%,
+    #fde68a 82%,
     #ffffff 100%
   );
   background-size: 280% auto;
@@ -185,7 +246,7 @@
   color: transparent;
   -webkit-text-fill-color: transparent;
   animation: hero-shimmer 4s linear infinite;
-  filter: drop-shadow(0 2px 20px rgba(253, 224, 71, 0.45));
+  filter: drop-shadow(0 2px 14px rgba(251, 191, 36, 0.32));
 }
 
 .hero-title-brand::after {
@@ -199,9 +260,9 @@
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(253, 224, 71, 0.9),
-    #ffffff,
-    rgba(253, 224, 71, 0.9),
+    rgba(252, 211, 77, 0.85),
+    rgba(255, 255, 255, 0.95),
+    rgba(252, 211, 77, 0.85),
     transparent
   );
   background-size: 200% auto;
@@ -211,16 +272,16 @@
 .hero-title-glow {
   background: radial-gradient(
     ellipse at center,
-    rgba(255, 255, 255, 0.55) 0%,
-    rgba(253, 224, 71, 0.28) 32%,
-    rgba(167, 139, 250, 0.18) 52%,
-    transparent 70%
+    rgba(255, 255, 255, 0.42) 0%,
+    rgba(37, 99, 181, 0.22) 38%,
+    rgba(74, 84, 181, 0.12) 55%,
+    transparent 72%
   );
   animation: hero-glow-pulse 4s ease-in-out infinite;
 }
 
 .hero-title-glow-secondary {
-  background: radial-gradient(circle, rgba(96, 165, 250, 0.35) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(92, 103, 201, 0.28) 0%, transparent 70%);
   animation: hero-glow-drift 5s ease-in-out infinite;
 }
 
@@ -250,8 +311,8 @@
   width: 7px;
   height: 7px;
   border-radius: 9999px;
-  background: #4ade80;
-  box-shadow: 0 0 10px rgba(74, 222, 128, 0.8);
+  background: #93c5fd;
+  box-shadow: 0 0 10px rgba(147, 197, 253, 0.75);
   animation: hero-badge-pulse 2s ease-in-out infinite;
   flex-shrink: 0;
 }
@@ -321,7 +382,7 @@
 /* گرادیان متن — fallback برای مرورگرهای بدون background-clip:text */
 @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
   .hero-title-brand {
-    color: #fde047;
+    color: #fcd34d;
     background: none;
     -webkit-text-fill-color: unset;
   }

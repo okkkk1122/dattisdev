@@ -78,10 +78,10 @@ const translations: Record<string, Record<string, any>> = {
 };
 
 const services: { icon: typeof Monitor; key: keyof typeof serviceImages; color: string; bg: BackgroundKey }[] = [
-  { icon: Monitor, key: 'webDesign', color: 'from-blue-500 to-cyan-500', bg: 'web' },
-  { icon: Smartphone, key: 'appDevelopment', color: 'from-purple-500 to-pink-500', bg: 'app' },
-  { icon: Bot, key: 'botDevelopment', color: 'from-green-500 to-emerald-500', bg: 'bot' },
-  { icon: Code, key: 'softwareDevelopment', color: 'from-orange-500 to-red-500', bg: 'software' },
+  { icon: Monitor, key: 'webDesign', color: 'from-primary-500 to-primary-700', bg: 'web' },
+  { icon: Smartphone, key: 'appDevelopment', color: 'from-primary-600 to-secondary-500', bg: 'app' },
+  { icon: Bot, key: 'botDevelopment', color: 'from-secondary-500 to-secondary-700', bg: 'bot' },
+  { icon: Code, key: 'softwareDevelopment', color: 'from-primary-500 to-secondary-600', bg: 'software' },
 ];
 
 export default function ServicesPreviewSection() {
@@ -92,19 +92,15 @@ export default function ServicesPreviewSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section ref={ref} className="py-20 section-surface-muted">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h2>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h2 className="section-title">{t.title}</h2>
+          <p className="section-subtitle">{t.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -140,10 +136,10 @@ export default function ServicesPreviewSection() {
                     </div>
                   </div>
                   <div className="h-full p-6">
-                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
                       {serviceData.title}
                     </h3>
-                    <p className="text-gray-700 dark:text-gray-300">
+                    <p className="text-slate-600 dark:text-slate-300">
                       {serviceData.description}
                     </p>
                   </div>

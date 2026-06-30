@@ -31,7 +31,7 @@ export default function LocaleLayout({
       <body
         className={`${
           isEnglish ? inter.className : vazirmatn.className
-        } bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors antialiased`}
+        } bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors antialiased`}
         suppressHydrationWarning
       >
         <ClientLocaleLayout locale={locale}>{children}</ClientLocaleLayout>

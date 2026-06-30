@@ -59,16 +59,16 @@ export default function LoadingScreen({ locale = 'fa' }: { locale?: string }) {
           transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] }}
           className="fixed inset-0 z-[100] overflow-hidden"
         >
-          <div className="absolute inset-0 bg-[#0a0a1a]" />
-          <div className="absolute inset-0 bg-gradient-to-br from-indigo-950/80 via-violet-950/60 to-fuchsia-950/40" />
+          <div className="absolute inset-0 bg-[#0a1628]" />
+          <div className="absolute inset-0 bg-brand-gradient opacity-95" />
 
           <motion.div
-            className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-indigo-600/30 blur-3xl"
+            className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-primary-600/25 blur-3xl"
             animate={{ x: [0, 60, 0], y: [0, 40, 0], scale: [1, 1.2, 1] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
           />
           <motion.div
-            className="absolute -bottom-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-violet-600/25 blur-3xl"
+            className="absolute -bottom-32 -right-32 w-[28rem] h-[28rem] rounded-full bg-secondary-600/20 blur-3xl"
             animate={{ x: [0, -50, 0], y: [0, -30, 0], scale: [1, 1.15, 1] }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
           />
@@ -112,7 +112,7 @@ export default function LoadingScreen({ locale = 'fa' }: { locale?: string }) {
                 />
               ))}
 
-              <div className="relative w-24 h-24 rounded-2xl bg-gradient-to-br from-indigo-500 via-violet-500 to-fuchsia-500 flex items-center justify-center shadow-2xl shadow-violet-500/40">
+              <div className="relative w-24 h-24 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-secondary-600 flex items-center justify-center shadow-2xl shadow-primary-600/35">
                 <svg viewBox="0 0 48 48" className="w-14 h-14" aria-hidden>
                   <path
                     d="M12 36 L24 8 L36 36 M16 28 L32 28"
@@ -128,7 +128,7 @@ export default function LoadingScreen({ locale = 'fa' }: { locale?: string }) {
 
             <div className="flex items-baseline gap-1 mb-2">
               <span className="text-5xl font-black tracking-tight text-white">Dattis</span>
-              <span className="text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-violet-300 to-fuchsia-300">
+              <span className="text-5xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-primary-300 to-secondary-300">
                 Dev
               </span>
             </div>

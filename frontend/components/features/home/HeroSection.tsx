@@ -77,7 +77,7 @@ export default function HeroSection() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-600 via-primary-500 to-secondary-600 dark:from-primary-900 dark:via-primary-800 dark:to-secondary-900 pt-20 md:pt-24"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-brand-gradient pt-20 md:pt-24"
     >
       {/* Animated Background Particles */}
       <div className="absolute inset-0">
@@ -189,7 +189,7 @@ export default function HeroSection() {
         >
           <Button
             size="lg"
-            className="hero-cta-primary group bg-white text-primary-600 hover:bg-gray-50 shadow-xl font-semibold"
+            className="hero-cta-primary group bg-white text-primary-700 hover:bg-slate-50 shadow-brand-lg font-semibold"
           >
             {t.cta}
             <ArrowLeft className="mr-2 transition-transform group-hover:-translate-x-1" size={20} />
@@ -197,7 +197,7 @@ export default function HeroSection() {
           <Button
             size="lg"
             variant="outline"
-            className="hero-cta-secondary border-2 border-white/40 text-white hover:bg-white/10 backdrop-blur-sm font-medium"
+            className="hero-cta-secondary border-2 border-white/45 text-white hover:bg-white/12 hover:border-white/55 backdrop-blur-sm font-medium"
           >
             {t.ctaSecondary}
           </Button>

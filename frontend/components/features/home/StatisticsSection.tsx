@@ -51,7 +51,7 @@ export default function StatisticsSection() {
   ];
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-800">
+    <section className="py-20 section-surface-muted">
       <div ref={ref} className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((stat, index) => {
@@ -121,14 +121,14 @@ function StatCard({
       <ThemedCard background={bg} className="text-center">
         <div className="p-6">
           <motion.div
-            className="inline-flex items-center justify-center w-16 h-16 bg-primary-600/90 rounded-full mb-4 shadow-lg"
+            className="icon-badge w-16 h-16 rounded-full mb-4"
             whileHover={{ scale: 1.1, rotate: 360 }}
             transition={{ duration: 0.5 }}
           >
             <Icon className="text-white" size={32} />
           </motion.div>
           <motion.div
-            className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-2"
+            className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-2"
             initial={{ scale: 0 }}
             animate={isInView ? { scale: 1 } : {}}
             transition={{ delay: delay + 0.2, type: 'spring' }}
@@ -136,7 +136,7 @@ function StatCard({
             {mounted ? count : 0}
             {suffix}
           </motion.div>
-          <p className="text-gray-700 dark:text-gray-300 font-medium">{label}</p>
+          <p className="text-slate-600 dark:text-slate-300 font-medium">{label}</p>
         </div>
       </ThemedCard>
     </motion.div>

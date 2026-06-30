@@ -40,7 +40,7 @@ export default function CTASection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <section ref={ref} className="py-20 bg-gradient-to-br from-primary-600 via-primary-500 to-secondary-600 dark:from-primary-900 dark:via-primary-800 dark:to-secondary-900 relative overflow-hidden">
+    <section ref={ref} className="py-20 bg-brand-gradient relative overflow-hidden">
       {/* Animated Background */}
       <div className="absolute inset-0">
         {Array.from({ length: 30 }).map((_, i) => (
@@ -84,7 +84,7 @@ export default function CTASection() {
             <Link href={`/${locale}/contact`}>
               <Button
                 size="lg"
-                className="bg-white text-primary-600 hover:bg-gray-100 shadow-xl hover:shadow-2xl transition-all"
+                className="bg-white text-primary-700 hover:bg-slate-50 shadow-brand-lg transition-all"
               >
                 {t.cta}
                 <ArrowLeft className="mr-2" size={20} />
@@ -94,7 +94,7 @@ export default function CTASection() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm"
+                className="border-2 border-white/45 text-white hover:bg-white/12 hover:border-white/55 backdrop-blur-sm"
               >
                 {t.contact}
               </Button>

@@ -21,7 +21,7 @@ export default function ChatWidget({ locale }: ChatWidgetProps) {
       <motion.button
         onClick={() => setIsOpen((open) => !open)}
         initial={false}
-        className="fixed bottom-6 left-6 z-50 bg-primary-600 text-white px-4 py-3 rounded-full shadow-lg hover:bg-primary-700 transition-colors flex items-center gap-2"
+        className="fixed bottom-6 left-6 z-50 bg-gradient-to-r from-primary-600 to-secondary-600 text-white px-4 py-3 rounded-full shadow-brand-lg hover:from-primary-700 hover:to-secondary-700 transition-all flex items-center gap-2"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label={t.buttonLabel}
