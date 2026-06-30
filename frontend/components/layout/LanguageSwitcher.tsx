@@ -16,8 +16,7 @@ export default function LanguageSwitcher() {
   const currentLanguage = languages.find((lang) => lang.code === locale);
 
   const switchLanguage = (newLocale: string) => {
-    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365}`;
-    document.cookie = `GEO_LOCALE_SET=1;path=/;max-age=${60 * 60 * 24 * 30}`;
+    document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=${60 * 60 * 24 * 365};samesite=lax`;
     const newPathname = pathname.replace(`/${locale}`, `/${newLocale}`);
     router.push(newPathname);
   };
