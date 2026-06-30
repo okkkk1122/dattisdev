@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -81,7 +81,7 @@ export default function PortfolioPreviewSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-primary-900/85 via-slate-900/45 to-transparent group-hover:from-primary-800/90 transition-all" />
                 <div className="absolute inset-0 flex items-end p-6">
                   <div className="text-right w-full">
-                    <span className="inline-block px-3 py-1 bg-white/90 rounded-full text-sm font-semibold mb-2 text-gray-900">
+                    <span className="inline-block px-3 py-1 bg-white/90 rounded-full text-sm font-semibold mb-2 text-slate-900">
                       {project.category}
                     </span>
                     <h3 className="text-xl font-bold text-white mb-2">

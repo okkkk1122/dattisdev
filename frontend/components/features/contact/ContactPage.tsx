@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -122,15 +122,11 @@ export default function ContactPage() {
   };
 
   return (
-    <section ref={ref} className="py-20 bg-gray-50 dark:bg-gray-800 min-h-screen">
+    <section ref={ref} className="page-shell">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h1 className="section-title text-4xl md:text-5xl lg:text-6xl">{t.title}</h1>
+          <p className="section-subtitle">{t.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -138,15 +134,15 @@ export default function ContactPage() {
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
-            className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-xl"
+            className="page-card p-8"
           >
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 flex items-center">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6 flex items-center">
               <MessageSquare className="mr-2 text-primary-600" size={28} />
               {t.form.send}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">
+                <label className="page-label">
                   {t.form.name}
                 </label>
                 <input
@@ -155,12 +151,12 @@ export default function ContactPage() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                  className="page-input"
                 />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="page-label">
                     {t.form.email}
                   </label>
                   <input
@@ -169,11 +165,11 @@ export default function ContactPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                    className="page-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-gray-700 dark:text-gray-300 mb-2">
+                  <label className="page-label">
                     {t.form.phone}
                   </label>
                   <input
@@ -181,12 +177,12 @@ export default function ContactPage() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                    className="page-input"
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">
+                <label className="page-label">
                   {t.form.subject}
                 </label>
                 <input
@@ -195,11 +191,11 @@ export default function ContactPage() {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                  className="page-input"
                 />
               </div>
               <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">
+                <label className="page-label">
                   {t.form.message}
                 </label>
                 <textarea
@@ -208,7 +204,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+                  className="page-input"
                 />
               </div>
               <Button
@@ -229,15 +225,15 @@ export default function ContactPage() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             className="space-y-6"
           >
-            <div className="bg-white dark:bg-gray-900 rounded-2xl p-8 shadow-xl">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+            <div className="page-card p-8">
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-6">
                 {t.info.address}
               </h2>
               <div className="space-y-4">
                 <div className="flex items-start space-x-4 space-x-reverse">
                   <MapPin className="text-primary-600 mt-1 flex-shrink-0" size={24} />
                   <div>
-                    <p className="text-gray-700 dark:text-gray-300">
+                    <p className="text-slate-700 dark:text-slate-300">
                       {t.info.addressValue}
                     </p>
                   </div>
@@ -245,7 +241,7 @@ export default function ContactPage() {
                 <div className="flex items-start space-x-4 space-x-reverse">
                   <Phone className="text-primary-600 mt-1 flex-shrink-0" size={24} />
                   <div>
-                    <p className="text-gray-700 dark:text-gray-300">
+                    <p className="text-slate-700 dark:text-slate-300">
                       {t.info.phoneValue}
                     </p>
                   </div>
@@ -253,7 +249,7 @@ export default function ContactPage() {
                 <div className="flex items-start space-x-4 space-x-reverse">
                   <Mail className="text-primary-600 mt-1 flex-shrink-0" size={24} />
                   <div>
-                    <p className="text-gray-700 dark:text-gray-300">
+                    <p className="text-slate-700 dark:text-slate-300">
                       {t.info.emailValue}
                     </p>
                   </div>
@@ -261,7 +257,7 @@ export default function ContactPage() {
                 <div className="flex items-start space-x-4 space-x-reverse">
                   <Clock className="text-primary-600 mt-1 flex-shrink-0" size={24} />
                   <div>
-                    <p className="text-gray-700 dark:text-gray-300">
+                    <p className="text-slate-700 dark:text-slate-300">
                       {t.info.hoursValue}
                     </p>
                   </div>
@@ -270,7 +266,7 @@ export default function ContactPage() {
             </div>
 
             {/* Map */}
-            <div className="bg-white dark:bg-gray-900 rounded-2xl p-4 shadow-xl overflow-hidden">
+            <div className="page-card p-4 overflow-hidden">
               <div className="relative h-64 rounded-lg overflow-hidden">
                 <Image
                   src="/images/map.jpg"
@@ -279,7 +275,7 @@ export default function ContactPage() {
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-primary-900/30 flex items-center justify-center">
-                  <div className="bg-white/90 dark:bg-gray-900/90 px-4 py-2 rounded-lg flex items-center gap-2">
+                  <div className="bg-white/90 dark:bg-slate-900/90 px-4 py-2 rounded-lg flex items-center gap-2">
                     <MapPin className="text-primary-600" size={20} />
                     <span className="text-sm font-medium">{t.info.addressValue}</span>
                   </div>

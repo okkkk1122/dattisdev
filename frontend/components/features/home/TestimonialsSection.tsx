@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { usePathname } from 'next/navigation';
 import { motion, useInView } from 'framer-motion';
@@ -66,11 +66,11 @@ export default function TestimonialsSection() {
 
         <div className="relative max-w-4xl mx-auto">
           {testimonials.length === 0 ? (
-            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+            <div className="text-center py-12 text-slate-500 dark:text-slate-400">
               <p>{t.empty}</p>
             </div>
           ) : (
-            <ThemedCard background="testimonial" className="h-80 shadow-2xl" overlay="light">
+            <ThemedCard background="testimonial" className="h-80 shadow-brand-lg" overlay="light">
             <div className="relative h-80 overflow-hidden">
               {testimonials.map((testimonial, index) => (
               <motion.div
@@ -112,10 +112,10 @@ export default function TestimonialsSection() {
                       </div>
                     )}
                     <div>
-                      <h4 className="font-semibold text-gray-900 dark:text-white">
+                      <h4 className="font-semibold text-slate-900 dark:text-white">
                         {testimonial.name}
                       </h4>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      <p className="text-slate-600 dark:text-slate-400 text-sm">
                         {pickLocalized(testimonial as unknown as Record<string, unknown>, 'role', locale)}
                         {testimonial.company &&
                           ` - ${pickLocalized(testimonial as unknown as Record<string, unknown>, 'company', locale)}`}
@@ -133,15 +133,15 @@ export default function TestimonialsSection() {
             <>
               <button
             onClick={prev}
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white dark:bg-slate-800 rounded-full shadow-lg hover:shadow-xl transition-all"
           >
-            <ChevronLeft size={24} className="text-gray-700 dark:text-gray-300" />
+            <ChevronLeft size={24} className="text-slate-700 dark:text-slate-300" />
           </button>
           <button
             onClick={next}
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white dark:bg-gray-800 rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white dark:bg-slate-800 rounded-full shadow-lg hover:shadow-xl transition-all"
           >
-            <ChevronRight size={24} className="text-gray-700 dark:text-gray-300" />
+            <ChevronRight size={24} className="text-slate-700 dark:text-slate-300" />
           </button>
 
           <div className="flex justify-center mt-6 space-x-2 space-x-reverse">
@@ -152,7 +152,7 @@ export default function TestimonialsSection() {
                 className={`w-3 h-3 rounded-full transition-all ${
                   index === currentIndex
                     ? 'bg-primary-600 w-8'
-                    : 'bg-gray-300 dark:bg-gray-600'
+                    : 'bg-slate-300 dark:bg-slate-600'
                 }`}
               />
             ))}

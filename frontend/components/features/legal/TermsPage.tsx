@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
@@ -75,12 +75,12 @@ export default function TermsPage() {
   const page = content[locale] || content.fa;
 
   return (
-    <section className="py-20 min-h-screen bg-gray-50 dark:bg-gray-800">
+    <section className="page-shell">
       <div className="container mx-auto px-4 max-w-3xl">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold text-gray-900 dark:text-white mb-12"
+          className="section-title text-4xl mb-12"
         >
           {page.title}
         </motion.h1>
@@ -91,12 +91,12 @@ export default function TermsPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg"
+              className="page-card p-6"
             >
-              <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
+              <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">
                 {section.heading}
               </h2>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{section.body}</p>
+              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{section.body}</p>
             </motion.div>
           ))}
         </div>

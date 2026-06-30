@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
@@ -50,13 +50,13 @@ export default function ChatMessage({ message, locale = 'fa' }: ChatMessageProps
         className={`max-w-[80%] rounded-lg px-4 py-2 ${
           isUser
             ? 'bg-primary-600 text-white rounded-tr-none'
-            : 'bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-tl-none shadow'
+            : 'bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 rounded-tl-none shadow'
         }`}
       >
         <p className="text-sm leading-relaxed">{message.text}</p>
         <p
           className={`text-xs mt-1 ${
-            isUser ? 'text-primary-100' : 'text-gray-500 dark:text-gray-400'
+            isUser ? 'text-primary-100' : 'text-slate-500 dark:text-slate-400'
           }`}
         >
           {formattedTime}

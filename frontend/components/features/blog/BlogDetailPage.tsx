@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -65,7 +65,7 @@ export default function BlogDetailPage({ postId }: { postId: string }) {
   const tags = pickLocalizedTags(postRecord, locale);
 
   return (
-    <article className="py-12 min-h-screen bg-gray-50 dark:bg-gray-800">
+    <article className="page-shell-tight">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link
           href={`/${locale}/blog`}
@@ -80,7 +80,7 @@ export default function BlogDetailPage({ postId }: { postId: string }) {
             <Image src={post.image} alt={title} fill className="object-cover" priority />
           </div>
 
-          <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-gray-400 mb-4">
+          <div className="flex flex-wrap gap-4 text-sm text-slate-500 dark:text-slate-400 mb-4">
             <span className="flex items-center gap-1">
               <Calendar size={16} />
               {post.date}
@@ -96,21 +96,21 @@ export default function BlogDetailPage({ postId }: { postId: string }) {
             <span>{t.views}: {post.views}</span>
           </div>
 
-          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
+          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-6">
             {title}
           </h1>
 
-          <p className="text-lg text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+          <p className="text-lg text-slate-600 dark:text-slate-300 mb-8 leading-relaxed">
             {excerpt}
           </p>
 
-          <div className="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">
+          <div className="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
             {content}
           </div>
 
           {tags.length > 0 && (
-            <div className="mt-10 pt-6 border-t border-gray-200 dark:border-gray-700">
-              <p className="text-sm font-medium text-gray-500 mb-3">{t.tags}:</p>
+            <div className="mt-10 pt-6 border-t border-slate-200 dark:border-slate-700">
+              <p className="text-sm font-medium text-slate-500 mb-3">{t.tags}:</p>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
                   <span

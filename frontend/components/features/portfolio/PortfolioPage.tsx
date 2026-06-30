@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -71,15 +71,11 @@ export default function PortfolioPage() {
       : activeProjects.filter((p) => p.category === activeFilter);
 
   return (
-    <section className="py-20 bg-gray-50 dark:bg-gray-800 min-h-screen">
+    <section className="page-shell">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h1 className="section-title text-4xl md:text-5xl lg:text-6xl">{t.title}</h1>
+          <p className="section-subtitle">{t.subtitle}</p>
         </div>
 
         {/* Filter Buttons */}
@@ -92,8 +88,8 @@ export default function PortfolioPage() {
                 onClick={() => setActiveFilter(filter)}
                 className={`px-6 py-3 rounded-lg font-semibold transition-all flex items-center space-x-2 space-x-reverse ${
                   activeFilter === filter
-                    ? 'bg-primary-600 text-white shadow-lg'
-                    : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    ? 'filter-pill filter-pill-active'
+                    : 'filter-pill filter-pill-inactive'
                 }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -126,7 +122,7 @@ export default function PortfolioPage() {
                   whileHover={{ y: -10 }}
                   className="group"
                 >
-                  <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all h-full">
+                  <div className="blog-card hover:shadow-brand transition-all h-full">
                     <div className="relative h-64 overflow-hidden">
                       <Image
                         src={project.image}
@@ -137,7 +133,7 @@ export default function PortfolioPage() {
                       />
                       <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors" />
                       <div className="absolute top-4 left-4">
-                        <div className="flex items-center space-x-2 space-x-reverse px-3 py-1 bg-white/90 dark:bg-gray-900/90 rounded-full">
+                        <div className="flex items-center space-x-2 space-x-reverse px-3 py-1 bg-white/90 dark:bg-slate-900/90 rounded-full">
                           <Icon size={20} className="text-primary-600" />
                           <span className="text-sm font-semibold">
                             {getPortfolioCategoryLabel(project.category, locale)}
@@ -157,10 +153,10 @@ export default function PortfolioPage() {
                       </motion.div>
                     </div>
                     <div className="p-6">
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                         {pickLocalized(project as unknown as Record<string, unknown>, 'title', locale)}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-400 mb-4">
+                      <p className="text-slate-600 dark:text-slate-400 mb-4">
                         {pickLocalized(project as unknown as Record<string, unknown>, 'description', locale)}
                       </p>
                       <div className="flex flex-wrap gap-2 mb-4">

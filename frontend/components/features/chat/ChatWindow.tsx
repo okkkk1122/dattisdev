@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Send, Paperclip } from 'lucide-react';
@@ -96,7 +96,7 @@ export default function ChatWindow({ locale, onClose }: ChatWindowProps) {
 
   return (
     <div
-      className="flex flex-col h-full bg-white dark:bg-gray-900"
+      className="flex flex-col h-full bg-white dark:bg-slate-900"
       dir={siteLocale === 'en' ? 'ltr' : 'rtl'}
     >
       <div className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white p-4 flex items-center justify-between">
@@ -116,9 +116,9 @@ export default function ChatWindow({ locale, onClose }: ChatWindowProps) {
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-800">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 dark:bg-slate-800">
         {!mounted ? (
-          <div className="text-center text-gray-500 dark:text-gray-400 mt-8">{t.loading}</div>
+          <div className="text-center text-slate-500 dark:text-slate-400 mt-8">{t.loading}</div>
         ) : (
           <div className="space-y-4">
             {displayMessages.map((message) => (
@@ -131,14 +131,14 @@ export default function ChatWindow({ locale, onClose }: ChatWindowProps) {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="flex items-center gap-2 text-gray-500 dark:text-gray-400"
+            className="flex items-center gap-2 text-slate-500 dark:text-slate-400"
           >
             <span className="text-sm">{t.typing}</span>
             <div className="flex gap-1">
               {[0, 0.2, 0.4].map((delay) => (
                 <motion.div
                   key={delay}
-                  className="w-2 h-2 bg-gray-400 rounded-full"
+                  className="w-2 h-2 bg-slate-400 rounded-full"
                   animate={{ y: [0, -8, 0] }}
                   transition={{ duration: 0.6, repeat: Infinity, delay }}
                 />
@@ -148,12 +148,12 @@ export default function ChatWindow({ locale, onClose }: ChatWindowProps) {
         )}
       </div>
 
-      <div className="p-4 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
+      <div className="p-4 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-700">
         <div className="flex items-center gap-2">
           <button
             type="button"
             aria-label={siteLocale === 'fa' ? 'پیوست' : siteLocale === 'ar' ? 'مرفق' : 'Attach'}
-            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors"
+            className="p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 transition-colors"
           >
             <Paperclip size={20} />
           </button>
@@ -163,7 +163,7 @@ export default function ChatWindow({ locale, onClose }: ChatWindowProps) {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             placeholder={t.placeholder}
-            className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white"
+            className="flex-1 px-4 py-2 border border-slate-300 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-slate-800 dark:text-white"
           />
           <button
             type="button"

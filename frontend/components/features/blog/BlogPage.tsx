@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -51,15 +51,11 @@ export default function BlogPage() {
   const categories = blogCategoryList[locale as 'fa' | 'en' | 'ar'] || blogCategoryList.fa;
 
   return (
-    <section ref={ref} className="py-20 bg-gray-50 dark:bg-gray-800 min-h-screen">
+    <section ref={ref} className="page-shell">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h1 className="section-title text-4xl md:text-5xl lg:text-6xl">{t.title}</h1>
+          <p className="section-subtitle">{t.subtitle}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -79,7 +75,7 @@ export default function BlogPage() {
                   className="group"
                 >
                   <Link href={`/${locale}/blog/${post.id}`}>
-                    <div className="bg-white dark:bg-gray-900 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all h-full">
+                    <div className="blog-card hover:shadow-brand transition-all h-full">
                       <div className="h-48 relative overflow-hidden">
                         <Image
                           src={post.image}
@@ -90,19 +86,19 @@ export default function BlogPage() {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                         <div className="absolute top-4 left-4">
-                          <span className="px-3 py-1 bg-white/90 dark:bg-gray-900/90 rounded-full text-sm font-semibold">
+                          <span className="px-3 py-1 bg-white/90 dark:bg-slate-900/90 rounded-full text-sm font-semibold">
                             {pickLocalized(post as unknown as Record<string, unknown>, 'category', locale)}
                           </span>
                         </div>
                       </div>
                       <div className="p-6">
-                        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors line-clamp-2">
                           {postTitle}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+                        <p className="text-slate-600 dark:text-slate-400 mb-4 line-clamp-3">
                           {pickLocalized(post as unknown as Record<string, unknown>, 'excerpt', locale)}
                         </p>
-                        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-4">
+                        <div className="flex items-center justify-between text-sm text-slate-500 dark:text-slate-400 mb-4">
                           <div className="flex items-center space-x-2 space-x-reverse">
                             <User size={16} />
                             <span>{postAuthor}</span>
@@ -137,15 +133,15 @@ export default function BlogPage() {
 
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-gray-900 rounded-xl p-6 shadow-lg sticky top-20">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+            <div className="page-card p-6 shadow-lg sticky top-20">
+              <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4">
                 {t.categories}
               </h3>
               <div className="space-y-2">
                 {categories.map((category, index) => (
                   <button
                     key={index}
-                    className="w-full text-right px-4 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-3"
+                    className="w-full text-right px-4 py-2 rounded-lg hover:bg-primary-50 dark:hover:bg-primary-900 text-slate-700 dark:text-slate-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors flex items-center gap-3"
                   >
                     <div className="relative w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
                       <Image

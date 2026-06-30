@@ -135,46 +135,40 @@ export default function AboutPage() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-800">
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-primary-600 to-secondary-600 dark:from-primary-900 dark:to-secondary-900 text-white">
+    <div className="min-h-screen section-surface-muted">
+      <section className="page-hero">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            {t.title}
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h1 className="page-hero-title">{t.title}</h1>
+          <p className="page-hero-subtitle">{t.subtitle}</p>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section ref={ref} className="py-20 bg-white dark:bg-gray-900">
+      <section ref={ref} className="py-20 section-surface">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-20">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              className="p-8 bg-gray-50 dark:bg-gray-800 rounded-xl"
+              className="p-8 page-card-soft"
             >
               <Target className="text-primary-600 mb-4" size={48} />
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
                 {t.mission.title}
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
                 {t.mission.description}
               </p>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
-              className="p-8 bg-gray-50 dark:bg-gray-800 rounded-xl"
+              className="p-8 page-card-soft"
             >
               <Eye className="text-secondary-600 mb-4" size={48} />
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
                 {t.vision.title}
               </h2>
-              <p className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
+              <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed">
                 {t.vision.description}
               </p>
             </motion.div>
@@ -182,7 +176,7 @@ export default function AboutPage() {
 
           {/* Values */}
           <div>
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white text-center mb-12">
+            <h2 className="section-title text-center mb-12">
               {t.values.title}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -195,13 +189,13 @@ export default function AboutPage() {
                     initial={{ opacity: 0, y: 30 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ delay: index * 0.1 }}
-                    className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg text-center"
+                    className="p-6 page-card text-center"
                   >
                     <Icon className="text-primary-600 mx-auto mb-4" size={40} />
-                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                       {value.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-slate-600 dark:text-slate-400">
                       {value.description}
                     </p>
                   </motion.div>
@@ -213,9 +207,9 @@ export default function AboutPage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-20 bg-gray-50 dark:bg-gray-800">
+      <section className="py-20 section-surface-muted">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white text-center mb-16">
+          <h2 className="section-title text-center mb-16">
             {t.timeline.title}
           </h2>
           <div className="relative">
@@ -232,20 +226,20 @@ export default function AboutPage() {
                   } flex-col`}
                 >
                   <div className={`w-full md:w-1/2 ${index % 2 === 0 ? 'md:pr-8' : 'md:pl-8'}`}>
-                    <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg">
+                    <div className="page-card p-6">
                       <div className="text-primary-600 font-bold text-2xl mb-2">
                         {item.year}
                       </div>
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                         {item.title}
                       </h3>
-                      <p className="text-gray-600 dark:text-gray-400">
+                      <p className="text-slate-600 dark:text-slate-400">
                         {item.description}
                       </p>
                     </div>
                   </div>
                   <div className="hidden md:block w-1/2" />
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary-600 rounded-full border-4 border-white dark:border-gray-800 hidden md:block" />
+                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-primary-600 rounded-full border-4 border-white dark:border-slate-800 hidden md:block" />
                 </motion.div>
               ))}
             </div>
@@ -254,9 +248,9 @@ export default function AboutPage() {
       </section>
 
       {/* Team */}
-      <section className="py-20 bg-white dark:bg-gray-900">
+      <section className="py-20 section-surface">
         <div className="container mx-auto px-4">
-          <h2 className="text-4xl font-bold text-gray-900 dark:text-white text-center mb-16">
+          <h2 className="section-title text-center mb-16">
             {t.team.title}
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -270,13 +264,13 @@ export default function AboutPage() {
                 whileHover={{ y: -10 }}
                 className="text-center"
               >
-                <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary-500 to-secondary-500 flex items-center justify-center text-white text-4xl font-bold">
+                <div className="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-br from-primary-600 to-secondary-600 flex items-center justify-center text-white text-4xl font-bold shadow-brand">
                   {member.name.charAt(0)}
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-2">
                   {member.name}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400">
+                <p className="text-slate-600 dark:text-slate-400">
                   {member.role}
                 </p>
               </motion.div>

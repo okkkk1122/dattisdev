@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
@@ -112,19 +112,15 @@ export default function PricingPage() {
     pickLocalized(feature as unknown as Record<string, unknown>, 'name', locale);
 
   return (
-    <section ref={ref} className="py-20 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <section ref={ref} className="page-shell">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h1 className="section-title text-4xl md:text-5xl lg:text-6xl">{t.title}</h1>
+          <p className="section-subtitle">{t.subtitle}</p>
         </motion.div>
 
         {/* Service Filter */}
@@ -140,8 +136,8 @@ export default function PricingPage() {
               onClick={() => setSelectedService(option.value as any)}
               className={`px-6 py-3 rounded-lg font-medium transition-all ${
                 selectedService === option.value
-                  ? 'bg-primary-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? 'filter-pill filter-pill-active'
+                  : 'filter-pill filter-pill-inactive'
               }`}
             >
               {option.label}
@@ -161,7 +157,7 @@ export default function PricingPage() {
             >
               <ThemedCard
                 background="pricing"
-                className={`h-full overflow-hidden ${plan.popular ? 'ring-4 ring-primary-500' : ''}`}
+                className={`h-full overflow-hidden ${plan.popular ? 'ring-4 ring-primary-500/80 shadow-brand-lg' : ''}`}
               >
               <div className="relative h-32">
                 <Image
@@ -180,27 +176,27 @@ export default function PricingPage() {
               )}
 
               <div className="p-8">
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                   {getPlanName(plan)}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-400 mb-6">
+                <p className="text-slate-600 dark:text-slate-400 mb-6">
                   {getPlanDescription(plan)}
                 </p>
 
                 <div className="mb-6">
                   <div className="flex items-baseline">
-                    <span className="text-4xl font-bold text-gray-900 dark:text-white">
+                    <span className="text-4xl font-bold text-slate-900 dark:text-white">
                       {locale === 'fa' ? (
                         formatPlanPrice(plan)
                       ) : (
                         <>${formatPlanPrice(plan)}</>
                       )}
                     </span>
-                    <span className="text-gray-600 dark:text-gray-400 mr-2">
+                    <span className="text-slate-600 dark:text-slate-400 mr-2">
                       {getCurrencyLabel(locale)}
                     </span>
                   </div>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                     {getPeriodLabel(plan.period)}
                   </p>
                 </div>
@@ -222,13 +218,13 @@ export default function PricingPage() {
                       {feature.included ? (
                         <Check className="text-green-500 mt-1 flex-shrink-0" size={20} />
                       ) : (
-                        <X className="text-gray-300 dark:text-gray-600 mt-1 flex-shrink-0" size={20} />
+                        <X className="text-slate-300 dark:text-slate-600 mt-1 flex-shrink-0" size={20} />
                       )}
                       <span
                         className={`text-sm ${
                           feature.included
-                            ? 'text-gray-700 dark:text-gray-300'
-                            : 'text-gray-400 dark:text-gray-600 line-through'
+                            ? 'text-slate-700 dark:text-slate-300'
+                            : 'text-slate-400 dark:text-slate-600 line-through'
                         }`}
                       >
                         {getFeatureName(feature)}
@@ -243,7 +239,7 @@ export default function PricingPage() {
         </div>
 
         {plans.length === 0 && (
-          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+          <div className="text-center py-12 text-slate-500 dark:text-slate-400">
             <p>{t.noPlans}</p>
           </div>
         )}
@@ -255,7 +251,7 @@ export default function PricingPage() {
           transition={{ delay: 0.5 }}
           className="mt-16 text-center"
         >
-          <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-lg text-slate-600 dark:text-slate-400 mb-6">
             {t.customPackage}
           </p>
           <Link href={`/${locale}/contact`}>

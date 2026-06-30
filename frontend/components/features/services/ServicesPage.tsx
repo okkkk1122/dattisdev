@@ -116,10 +116,10 @@ const servicePriceFallback: Record<string, { priceRial: number; priceUsd: number
 };
 
 const services: { icon: typeof Monitor; key: keyof typeof serviceImages; color: string; bg: BackgroundKey }[] = [
-  { icon: Monitor, key: 'webDesign', color: 'from-blue-500 to-cyan-500', bg: 'web' },
-  { icon: Smartphone, key: 'appDevelopment', color: 'from-purple-500 to-pink-500', bg: 'app' },
-  { icon: Bot, key: 'botDevelopment', color: 'from-green-500 to-emerald-500', bg: 'bot' },
-  { icon: Code, key: 'softwareDevelopment', color: 'from-orange-500 to-red-500', bg: 'software' },
+  { icon: Monitor, key: 'webDesign', color: 'from-primary-500 to-primary-700', bg: 'web' },
+  { icon: Smartphone, key: 'appDevelopment', color: 'from-primary-600 to-secondary-500', bg: 'app' },
+  { icon: Bot, key: 'botDevelopment', color: 'from-secondary-500 to-secondary-700', bg: 'bot' },
+  { icon: Code, key: 'softwareDevelopment', color: 'from-primary-500 to-secondary-600', bg: 'software' },
 ];
 
 export default function ServicesPage() {
@@ -140,19 +140,15 @@ export default function ServicesPage() {
   };
 
   return (
-    <section ref={ref} className="py-20 bg-gray-50 dark:bg-gray-800 min-h-screen">
+    <section ref={ref} className="page-shell">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h1 className="section-title text-4xl md:text-5xl lg:text-6xl">{t.title}</h1>
+          <p className="section-subtitle">{t.subtitle}</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -187,21 +183,21 @@ export default function ServicesPage() {
                   </div>
                 </div>
                 <div className="p-8">
-                  <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
                     {serviceData.title}
                   </h2>
-                  <p className="text-gray-600 dark:text-gray-400 mb-6 text-lg">
+                  <p className="text-slate-600 dark:text-slate-400 mb-6 text-lg">
                     {serviceData.description}
                   </p>
                   <ul className="space-y-3 mb-6">
                     {serviceData.features.map((feature, i) => (
                       <li key={i} className="flex items-center space-x-3 space-x-reverse">
-                        <Check className="text-green-500 flex-shrink-0" size={20} />
-                        <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                        <Check className="text-primary-500 flex-shrink-0" size={20} />
+                        <span className="text-slate-700 dark:text-slate-300">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                  <div className="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
+                  <div className="flex items-center justify-between pt-6 border-t border-slate-200 dark:border-slate-700">
                     <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
                       {getServicePrice(service.key, serviceData.price)}
                     </span>

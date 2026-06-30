@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
@@ -113,19 +113,15 @@ export default function FAQPage() {
   const categories = ['all', 'خدمات', 'قیمت', 'فنی', 'عمومی'];
 
   return (
-    <section ref={ref} className="py-20 bg-gray-50 dark:bg-gray-900 min-h-screen">
+    <section ref={ref} className="page-shell">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           className="text-center mb-16"
         >
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4">
-            {t.title}
-          </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            {t.subtitle}
-          </p>
+          <h1 className="section-title text-4xl md:text-5xl lg:text-6xl">{t.title}</h1>
+          <p className="section-subtitle">{t.subtitle}</p>
         </motion.div>
 
         {/* Search */}
@@ -136,13 +132,13 @@ export default function FAQPage() {
           className="max-w-2xl mx-auto mb-8"
         >
           <div className="relative">
-            <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+            <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400" size={20} />
             <input
               type="text"
               placeholder={t.searchPlaceholder}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pr-12 pl-4 py-4 border border-gray-300 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white text-lg"
+              className="page-input text-lg pr-12 pl-4 py-4"
             />
           </div>
         </motion.div>
@@ -160,8 +156,8 @@ export default function FAQPage() {
               onClick={() => setActiveCategory(category)}
               className={`px-6 py-3 rounded-lg font-medium transition-all ${
                 activeCategory === category
-                  ? 'bg-primary-600 text-white shadow-lg'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                  ? 'filter-pill filter-pill-active'
+                  : 'filter-pill filter-pill-inactive'
               }`}
             >
               {category === 'all' ? t.allCategories : getCategoryLabel(category)}
@@ -181,13 +177,13 @@ export default function FAQPage() {
               <ThemedCard background="faq" className="overflow-hidden">
               <button
                 onClick={() => handleToggleFAQ(faq.id)}
-                className="w-full p-6 flex items-center justify-between text-right hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                className="w-full p-6 flex items-center justify-between text-right hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
               >
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                  <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
                     {getQuestion(faq)}
                   </h3>
-                  <div className="flex items-center space-x-4 space-x-reverse text-sm text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center space-x-4 space-x-reverse text-sm text-slate-500 dark:text-slate-400">
                     <span className="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 rounded-full">
                       {getCategoryLabel(faq.category)}
                     </span>
@@ -198,7 +194,7 @@ export default function FAQPage() {
                   </div>
                 </div>
                 <ChevronDown
-                  className={`text-gray-500 dark:text-gray-400 transition-transform ${
+                  className={`text-slate-500 dark:text-slate-400 transition-transform ${
                     openFAQ === faq.id ? 'rotate-180' : ''
                   }`}
                   size={24}
@@ -214,11 +210,11 @@ export default function FAQPage() {
                     transition={{ duration: 0.3 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-6 pb-6 border-t border-gray-200 dark:border-gray-700">
-                      <p className="text-gray-700 dark:text-gray-300 mt-4 leading-relaxed">
+                    <div className="px-6 pb-6 border-t border-slate-200 dark:border-slate-700">
+                      <p className="text-slate-700 dark:text-slate-300 mt-4 leading-relaxed">
                         {getAnswer(faq)}
                       </p>
-                      <div className="flex items-center space-x-4 space-x-reverse mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
+                      <div className="flex items-center space-x-4 space-x-reverse mt-6 pt-4 border-t border-slate-200 dark:border-slate-700">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
@@ -250,7 +246,7 @@ export default function FAQPage() {
         </div>
 
         {filteredFAQs.length === 0 && (
-          <div className="text-center py-12 text-gray-500 dark:text-gray-400">
+          <div className="text-center py-12 text-slate-500 dark:text-slate-400">
             <p>{t.noResults}</p>
           </div>
         )}

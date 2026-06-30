@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -47,7 +47,7 @@ export default function ChatWidget({ locale }: ChatWidgetProps) {
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            className="fixed bottom-24 left-6 z-40 w-[min(24rem,calc(100vw-3rem))] h-[500px] bg-white dark:bg-gray-900 rounded-lg shadow-2xl overflow-hidden border border-gray-200 dark:border-gray-700"
+            className="fixed bottom-24 left-6 z-40 w-[min(24rem,calc(100vw-3rem))] h-[500px] page-card overflow-hidden shadow-brand-lg"
           >
             <ChatWindow key={siteLocale} locale={siteLocale} onClose={() => setIsOpen(false)} />
           </motion.div>
