@@ -2,9 +2,10 @@
 
 import { usePathname } from 'next/navigation';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { seededRange } from '@/lib/utils/seeded';
 import Button from '@/components/common/Button';
+import HeroTitle from '@/components/features/home/HeroTitle';
 import { ArrowLeft, Code, Smartphone, Bot, Monitor } from 'lucide-react';
 
 const translations: Record<string, Record<string, string>> = {
@@ -76,7 +77,7 @@ export default function HeroSection() {
   return (
     <section
       ref={ref}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-600 via-primary-500 to-secondary-600 dark:from-primary-900 dark:via-primary-800 dark:to-secondary-900"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-600 via-primary-500 to-secondary-600 dark:from-primary-900 dark:via-primary-800 dark:to-secondary-900 pt-20 md:pt-24"
     >
       {/* Animated Background Particles */}
       <div className="absolute inset-0">
@@ -161,47 +162,42 @@ export default function HeroSection() {
         animate="visible"
         className="relative z-10 container mx-auto px-4 text-center text-white"
       >
-        <motion.div variants={itemVariants} className="mb-6">
+        <motion.div variants={itemVariants} className="mb-8 md:mb-10">
           <motion.span
-            className="inline-block px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full text-sm mb-4"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.5, type: 'spring' }}
+            className="hero-badge"
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.35, type: 'spring', stiffness: 120, damping: 14 }}
           >
+            <span className="hero-badge-dot" aria-hidden />
             {t.subtitle}
           </motion.span>
         </motion.div>
 
-        <motion.h1
-          variants={itemVariants}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-12 md:mb-16 text-white leading-[1.2] overflow-visible"
-          style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3)' }}
-        >
-          {t.title}
-        </motion.h1>
+        <HeroTitle text={t.title} locale={locale} />
 
         <motion.p
           variants={itemVariants}
-          className="text-xl md:text-2xl mb-8 text-white/90 max-w-3xl mx-auto leading-relaxed"
+          className="font-sans text-lg md:text-xl lg:text-2xl mb-10 md:mb-12 text-white/85 max-w-2xl mx-auto leading-[1.75] font-medium"
         >
           {t.description}
         </motion.p>
 
         <motion.div
           variants={itemVariants}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 md:gap-5"
         >
           <Button
             size="lg"
-            className="bg-white text-primary-600 hover:bg-gray-100 shadow-xl hover:shadow-2xl transition-all"
+            className="hero-cta-primary group bg-white text-primary-600 hover:bg-gray-50 shadow-xl font-semibold"
           >
             {t.cta}
-            <ArrowLeft className="mr-2" size={20} />
+            <ArrowLeft className="mr-2 transition-transform group-hover:-translate-x-1" size={20} />
           </Button>
           <Button
             size="lg"
             variant="outline"
-            className="border-2 border-white text-white hover:bg-white/10 backdrop-blur-sm"
+            className="hero-cta-secondary border-2 border-white/40 text-white hover:bg-white/10 backdrop-blur-sm font-medium"
           >
             {t.ctaSecondary}
           </Button>

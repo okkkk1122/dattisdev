@@ -1,21 +1,7 @@
-import { Vazirmatn, Inter } from 'next/font/google';
 import { setRequestLocale } from 'next-intl/server';
 import ClientLocaleLayout from './ClientLocaleLayout';
+import { inter, iranSharp, heroLotus, vazirmatn } from '@/lib/fonts';
 import '../globals.css';
-
-const vazirmatn = Vazirmatn({
-  subsets: ['arabic', 'latin'],
-  weight: ['300', '400', '500', '600', '700', '800'],
-  variable: '--font-vazirmatn',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700'],
-  variable: '--font-inter',
-  display: 'swap',
-});
 
 const locales = ['fa', 'en', 'ar'] as const;
 
@@ -39,7 +25,7 @@ export default function LocaleLayout({
     <html
       lang={locale}
       dir={isRtl ? 'rtl' : 'ltr'}
-      className={`${vazirmatn.variable} ${inter.variable}`}
+      className={`${vazirmatn.variable} ${iranSharp.variable} ${heroLotus.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <body

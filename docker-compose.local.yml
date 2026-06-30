@@ -1,0 +1,35 @@
+# Local Docker Desktop — Dokploy این فایل را deploy نمی‌کند.
+
+services:
+  postgres:
+    env_file: .env.local
+    ports:
+      - "${LOCAL_DB_PORT:-5435}:5432"
+
+  redis:
+    env_file: .env.local
+    ports:
+      - "${LOCAL_REDIS_PORT:-6380}:6379"
+
+  backend:
+    env_file: .env.local
+
+  frontend:
+    env_file: .env.local
+
+  haraka:
+    env_file: .env.local
+
+  nginx:
+    ports:
+      - "${LOCAL_HTTP_PORT:-8080}:80"
+
+volumes:
+  postgres_data:
+    name: dattisdev_postgres_data_local
+  redis_data:
+    name: dattisdev_redis_data_local
+  backend_data:
+    name: dattisdev_backend_data_local
+  haraka_queue:
+    name: dattisdev_haraka_queue_local

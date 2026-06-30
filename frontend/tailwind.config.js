@@ -36,6 +36,11 @@ module.exports = {
       fontFamily: {
         sans: ['var(--font-vazirmatn)', 'Tahoma', 'system-ui', 'sans-serif'],
         vazir: ['var(--font-vazirmatn)', 'Tahoma', 'sans-serif'],
+        heading: ['var(--font-iran-sharp)', 'var(--font-vazirmatn)', 'Tahoma', 'sans-serif'],
+        lotus: ['var(--font-lotus)', 'var(--font-vazirmatn)', 'Tahoma', 'serif'],
+        display: ['var(--font-lotus)', 'var(--font-vazirmatn)', 'Tahoma', 'serif'],
+        hero: ['var(--font-lotus)', 'var(--font-vazirmatn)', 'Tahoma', 'serif'],
+        shabnam: ['var(--font-shabnam)', 'var(--font-vazirmatn)', 'sans-serif'],
         inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
       },
       animation: {
