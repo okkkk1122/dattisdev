@@ -51,14 +51,16 @@ module.exports = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-vazirmatn)', 'Tahoma', 'system-ui', 'sans-serif'],
-        vazir: ['var(--font-vazirmatn)', 'Tahoma', 'sans-serif'],
-        heading: ['var(--font-iran-sharp)', 'var(--font-vazirmatn)', 'Tahoma', 'sans-serif'],
-        lotus: ['var(--font-lotus)', 'var(--font-vazirmatn)', 'Tahoma', 'serif'],
-        display: ['var(--font-lotus)', 'var(--font-vazirmatn)', 'Tahoma', 'serif'],
-        hero: ['var(--font-lotus)', 'var(--font-vazirmatn)', 'Tahoma', 'serif'],
-        shabnam: ['var(--font-shabnam)', 'var(--font-vazirmatn)', 'sans-serif'],
+        sans: ['var(--font-body)', 'Tahoma', 'system-ui', 'sans-serif'],
+        body: ['var(--font-body)', 'Tahoma', 'system-ui', 'sans-serif'],
+        heading: ['var(--font-heading)', 'var(--font-body)', 'Tahoma', 'sans-serif'],
+        cta: ['var(--font-cta)', 'var(--font-heading)', 'Tahoma', 'sans-serif'],
+        display: ['var(--font-heading)', 'var(--font-body)', 'Tahoma', 'sans-serif'],
+        hero: ['var(--font-heading)', 'var(--font-body)', 'Tahoma', 'sans-serif'],
         inter: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+        /* legacy aliases */
+        vazir: ['var(--font-body)', 'Tahoma', 'sans-serif'],
+        lotus: ['var(--font-heading)', 'var(--font-body)', 'Tahoma', 'sans-serif'],
       },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-in-out',

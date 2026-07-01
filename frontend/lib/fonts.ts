@@ -1,93 +1,61 @@
 import localFont from 'next/font/local';
 import { Inter } from 'next/font/google';
 
-/** متن فارسی — وزیرمتن با اعداد فارسی */
-export const vazirmatn = localFont({
+/** متن بدنه — ایران‌سنس (پاراگراف، توضیحات، اعداد فارسی) */
+export const iranianSans = localFont({
   src: [
     {
-      path: './fonts/Vazirmatn-FD-Light.ttf',
-      weight: '300',
+      path: './fonts/IranianSans-Regular.ttf',
+      weight: '400',
       style: 'normal',
     },
+  ],
+  variable: '--font-body',
+  display: 'swap',
+  preload: true,
+});
+
+/** عناوین — یکان (تیتر، عناوین بخش‌ها، حس رسمی) */
+export const yekan = localFont({
+  src: [
     {
-      path: './fonts/Vazirmatn-FD-Regular.ttf',
+      path: './fonts/Yekan-Regular.ttf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: './fonts/Vazirmatn-FD-Medium.ttf',
+      path: './fonts/Yekan-Bold.ttf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-heading',
+  display: 'swap',
+  preload: true,
+});
+
+/** CTA و بنر — فرهنگ (دکمه‌ها، فراخوان اقدام، تاکید برند) */
+export const farhang = localFont({
+  src: [
+    {
+      path: './fonts/FarhangFaNum-Medium.ttf',
       weight: '500',
       style: 'normal',
     },
     {
-      path: './fonts/Vazirmatn-FD-SemiBold.ttf',
+      path: './fonts/FarhangFaNum-DemiBold.ttf',
       weight: '600',
       style: 'normal',
     },
     {
-      path: './fonts/Vazirmatn-FD-Bold.ttf',
+      path: './fonts/FarhangFaNum-Bold.ttf',
       weight: '700',
       style: 'normal',
     },
   ],
-  variable: '--font-vazirmatn',
+  variable: '--font-cta',
   display: 'swap',
   preload: true,
-});
-
-/** عناوین فارسی — ایران‌شارپ */
-export const iranSharp = localFont({
-  src: [
-    {
-      path: './fonts/IRANSharp-FaNum-Regular.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: './fonts/IRANSharp-FaNum-Bold.ttf',
-      weight: '700',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-iran-sharp',
-  display: 'swap',
-  preload: true,
-});
-
-/** تیتر Hero — لوتوس (فونت کلاسیک و متمایز) */
-export const heroLotus = localFont({
-  src: [
-    {
-      path: './fonts/IRLotus-Bold.ttf',
-      weight: '700',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-lotus',
-  display: 'swap',
-  preload: true,
-});
-
-/** @deprecated use heroLotus */
-export const heroDisplay = heroLotus;
-
-/** فونت جایگزین — شبنم */
-export const shabnam = localFont({
-  src: [
-    {
-      path: './fonts/Shabnam-FD.ttf',
-      weight: '400',
-      style: 'normal',
-    },
-    {
-      path: './fonts/Shabnam-Bold-FD.ttf',
-      weight: '700',
-      style: 'normal',
-    },
-  ],
-  variable: '--font-shabnam',
-  display: 'swap',
-  preload: false,
 });
 
 /** انگلیسی */
@@ -97,3 +65,18 @@ export const inter = Inter({
   variable: '--font-inter',
   display: 'swap',
 });
+
+/** @deprecated use iranianSans */
+export const vazirmatn = iranianSans;
+
+/** @deprecated use yekan */
+export const iranSharp = yekan;
+
+/** @deprecated use yekan */
+export const heroLotus = yekan;
+
+/** @deprecated use yekan */
+export const heroDisplay = yekan;
+
+/** @deprecated use iranianSans */
+export const shabnam = iranianSans;

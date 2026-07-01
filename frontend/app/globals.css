@@ -61,11 +61,11 @@
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-4;
+    @apply text-4xl md:text-5xl font-bold font-heading text-slate-900 dark:text-white mb-4;
   }
 
   .section-subtitle {
-    @apply text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto;
+    @apply text-xl font-body text-slate-600 dark:text-slate-400 max-w-2xl mx-auto;
   }
 
   .icon-badge {
@@ -82,11 +82,11 @@
   }
 
   .page-hero-title {
-    @apply text-4xl md:text-5xl lg:text-6xl font-bold mb-4;
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold font-heading mb-4;
   }
 
   .page-hero-subtitle {
-    @apply text-xl md:text-2xl text-white/90 max-w-2xl mx-auto;
+    @apply text-xl md:text-2xl font-body text-white/90 max-w-2xl mx-auto;
   }
 
   .page-shell {
@@ -118,7 +118,7 @@
   }
 
   .filter-pill-active {
-    @apply bg-primary-600 text-white shadow-brand;
+    @apply bg-primary-600 text-white shadow-brand font-cta;
   }
 
   .filter-pill-inactive {
@@ -163,17 +163,28 @@
   direction: rtl;
 }
 
-[dir="rtl"] h1:not(.font-hero):not(.font-display):not(.font-lotus),
+[dir="rtl"] h1:not(.font-hero):not(.font-display):not(.font-cta),
 [dir="rtl"] h2,
 [dir="rtl"] h3,
 [dir="rtl"] .font-heading {
-  font-family: var(--font-iran-sharp), var(--font-vazirmatn), Tahoma, sans-serif;
+  font-family: var(--font-heading), var(--font-body), Tahoma, sans-serif;
 }
 
 [dir="rtl"] .font-hero,
-[dir="rtl"] .font-display,
+[dir="rtl"] .font-display {
+  font-family: var(--font-heading), var(--font-body), Tahoma, sans-serif;
+  font-weight: 700;
+}
+
+[dir="rtl"] .font-cta,
+[dir="rtl"] button:not(.font-body),
+[dir="rtl"] .btn-cta {
+  font-family: var(--font-cta), var(--font-heading), Tahoma, sans-serif;
+}
+
+/* legacy class names */
 [dir="rtl"] .font-lotus {
-  font-family: var(--font-lotus), var(--font-vazirmatn), Tahoma, serif;
+  font-family: var(--font-heading), var(--font-body), Tahoma, sans-serif;
   font-weight: 700;
 }
 

@@ -106,11 +106,11 @@ export default function HeroTitle({ text, locale, className = '' }: HeroTitlePro
                   className="hero-title-brand-shell hero-title-float inline-block"
                   style={{ animationDelay: reduceMotion ? undefined : `${floatDelay}s` }}
                 >
-                  <span className="hero-title-brand font-lotus">{segment.text}</span>
+                  <span className="hero-title-brand font-cta">{segment.text}</span>
                 </span>
               ) : (
                 <span
-                  className="hero-title-support hero-title-float font-sans inline-block font-extrabold"
+                  className="hero-title-support hero-title-float font-heading inline-block font-extrabold"
                   style={{ animationDelay: reduceMotion ? undefined : `${floatDelay}s` }}
                 >
                   {segment.text}

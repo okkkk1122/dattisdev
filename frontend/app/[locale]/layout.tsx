@@ -1,6 +1,6 @@
 import { setRequestLocale } from 'next-intl/server';
 import ClientLocaleLayout from './ClientLocaleLayout';
-import { inter, iranSharp, heroLotus, vazirmatn } from '@/lib/fonts';
+import { inter, iranianSans, yekan, farhang } from '@/lib/fonts';
 import '../globals.css';
 
 const locales = ['fa', 'en', 'ar'] as const;
@@ -25,12 +25,12 @@ export default function LocaleLayout({
     <html
       lang={locale}
       dir={isRtl ? 'rtl' : 'ltr'}
-      className={`${vazirmatn.variable} ${iranSharp.variable} ${heroLotus.variable} ${inter.variable}`}
+      className={`${iranianSans.variable} ${yekan.variable} ${farhang.variable} ${inter.variable}`}
       suppressHydrationWarning
     >
       <body
         className={`${
-          isEnglish ? inter.className : vazirmatn.className
+          isEnglish ? inter.className : iranianSans.className
         } bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors antialiased`}
         suppressHydrationWarning
       >
