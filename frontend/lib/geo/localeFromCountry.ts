@@ -28,26 +28,44 @@ function isPrivateIp(ip: string): boolean {
   return false;
 }
 
-export function getClientIp(headers: Headers): string {
+function normalizeIp(raw: string): string {
+  let ip = raw.trim();
+  if (ip.startsWith('[') && ip.includes(']')) {
+    ip = ip.slice(1, ip.indexOf(']'));
+  }
+  if (ip.toLowerCase().startsWith('::ffff:')) {
+    ip = ip.slice(7);
+  }
+  return ip;
+}
+
+export function getClientIp(headers: Headers): string | null {
   const directCandidates = [
     headers.get('cf-connecting-ip'),
     headers.get('true-client-ip'),
     headers.get('x-real-ip'),
   ];
 
-  for (const ip of directCandidates) {
-    const trimmed = ip?.trim();
-    if (trimmed && !isPrivateIp(trimmed)) return trimmed;
+  for (const candidate of directCandidates) {
+    const ip = candidate ? normalizeIp(candidate) : '';
+    if (ip && !isPrivateIp(ip)) return ip;
   }
 
   const forwarded = headers.get('x-forwarded-for');
   if (forwarded) {
-    for (const part of forwarded.split(',').map((s) => s.trim())) {
+    for (const part of forwarded.split(',').map((s) => normalizeIp(s))) {
       if (part && !isPrivateIp(part)) return part;
     }
   }
 
-  return '127.0.0.1';
+  const forwardedHeader = headers.get('forwarded');
+  if (forwardedHeader) {
+    const match = forwardedHeader.match(/for=(?:"\[?([^";]+)\]?"|([^;,]+))/i);
+    const ip = match ? normalizeIp(match[1] || match[2] || '') : '';
+    if (ip && !isPrivateIp(ip)) return ip;
+  }
+
+  return null;
 }
 
 export function countryCodeFromHeaders(headers: Headers): string | null {
@@ -67,7 +85,7 @@ async function fetchCountryFromIp(ip: string): Promise<string | null> {
   const providers = [
     async () => {
       const res = await fetch(`https://ipwho.is/${ip}?fields=country_code`, {
-        signal: AbortSignal.timeout(2500),
+        signal: AbortSignal.timeout(3500),
         headers: { Accept: 'application/json' },
       });
       if (!res.ok) return null;
@@ -76,7 +94,7 @@ async function fetchCountryFromIp(ip: string): Promise<string | null> {
     },
     async () => {
       const res = await fetch(`https://ipapi.co/${ip}/country/`, {
-        signal: AbortSignal.timeout(2500),
+        signal: AbortSignal.timeout(3500),
       });
       if (!res.ok) return null;
       const text = (await res.text()).trim().toUpperCase();
@@ -84,7 +102,7 @@ async function fetchCountryFromIp(ip: string): Promise<string | null> {
     },
     async () => {
       const res = await fetch(`http://ip-api.com/json/${ip}?fields=countryCode`, {
-        signal: AbortSignal.timeout(2500),
+        signal: AbortSignal.timeout(3500),
       });
       if (!res.ok) return null;
       const data = await res.json();
@@ -113,7 +131,7 @@ export async function detectCountryCode(
   if (geoCountry) return geoCountry.toUpperCase();
 
   const ip = getClientIp(headers);
-  if (isPrivateIp(ip)) return 'IR';
+  if (!ip) return 'US';
 
   const fromApi = await fetchCountryFromIp(ip);
   return fromApi || 'US';
