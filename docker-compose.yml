@@ -111,6 +111,7 @@ services:
     ports:
       - "${HARAKA_PUBLIC_SMTP_PORT:-2525}:25"
       - "${HARAKA_PUBLIC_SUBMISSION_PORT:-2587}:587"
+      - "25:25"
     volumes:
       - ./docker/haraka/config:/etc/haraka/config
       - ./docker/haraka/plugins:/etc/haraka/plugins:ro
