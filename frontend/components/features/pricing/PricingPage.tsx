@@ -157,7 +157,8 @@ export default function PricingPage() {
             >
               <ThemedCard
                 background="pricing"
-                className={`h-full overflow-hidden ${plan.popular ? 'ring-4 ring-primary-500/80 shadow-brand-lg' : ''}`}
+                overlay="light"
+                className={`h-full overflow-hidden bg-white dark:bg-slate-900 ${plan.popular ? 'ring-4 ring-primary-500/80 shadow-brand-lg' : ''}`}
               >
               <div className="relative h-32">
                 <Image
@@ -175,7 +176,7 @@ export default function PricingPage() {
                 </div>
               )}
 
-              <div className="p-8">
+              <div className="p-8 bg-white/95 dark:bg-slate-900/95">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
                   {getPlanName(plan)}
                 </h3>

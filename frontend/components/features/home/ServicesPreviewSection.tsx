@@ -81,7 +81,7 @@ const services: { icon: typeof Monitor; key: keyof typeof serviceImages; color: 
   { icon: Monitor, key: 'webDesign', color: 'from-primary-500 to-primary-700', bg: 'web' },
   { icon: Smartphone, key: 'appDevelopment', color: 'from-primary-600 to-secondary-500', bg: 'app' },
   { icon: Bot, key: 'botDevelopment', color: 'from-secondary-500 to-secondary-700', bg: 'bot' },
-  { icon: Code, key: 'softwareDevelopment', color: 'from-primary-500 to-secondary-600', bg: 'software' },
+  { icon: Code, key: 'softwareDevelopment', color: 'from-secondary-600 to-primary-700', bg: 'software' },
 ];
 
 export default function ServicesPreviewSection() {

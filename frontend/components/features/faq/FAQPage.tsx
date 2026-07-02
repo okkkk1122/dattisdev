@@ -5,7 +5,6 @@ import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Search, ChevronDown, ThumbsUp, ThumbsDown } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useFAQStore } from '@/lib/stores/faqStore';
-import ThemedCard from '@/components/common/ThemedCard';
 
 const translations: Record<string, Record<string, any>> = {
   fa: {
@@ -174,10 +173,10 @@ export default function FAQPage() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.4 + index * 0.05 }}
             >
-              <ThemedCard background="faq" className="overflow-hidden">
+              <div className="page-card overflow-hidden">
               <button
                 onClick={() => handleToggleFAQ(faq.id)}
-                className="w-full p-6 flex items-center justify-between text-right hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                className="w-full p-6 flex items-center justify-between text-right hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors"
               >
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
@@ -240,7 +239,7 @@ export default function FAQPage() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              </ThemedCard>
+              </div>
             </motion.div>
           ))}
         </div>

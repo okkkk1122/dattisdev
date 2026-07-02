@@ -2,9 +2,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
   <defs>
     <linearGradient id="bg-pricing" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#15803d"/>
-      <stop offset="55%" stop-color="#16a34a"/>
-      <stop offset="100%" stop-color="#4ade80"/>
+      <stop offset="0%" stop-color="#1e509a"/>
+      <stop offset="55%" stop-color="#3478c4"/>
+      <stop offset="100%" stop-color="#5c67c9"/>
     </linearGradient>
     <radialGradient id="glow-pricing" cx="70%" cy="20%" r="60%">
       <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
@@ -13,5 +13,7 @@
   </defs>
   <rect width="800" height="600" fill="url(#bg-pricing)"/>
   <rect width="800" height="600" fill="url(#glow-pricing)"/>
-  <circle cx="300" cy="280" r="50" fill="none" stroke="#4ade80" stroke-width="8" opacity="0.35"/><circle cx="400" cy="260" r="60" fill="none" stroke="#4ade80" stroke-width="8" opacity="0.35"/><circle cx="500" cy="240" r="70" fill="none" stroke="#4ade80" stroke-width="8" opacity="0.35"/>
+  <circle cx="300" cy="280" r="50" fill="none" stroke="#a0a9e5" stroke-width="8" opacity="0.35"/>
+  <circle cx="400" cy="260" r="60" fill="none" stroke="#a0a9e5" stroke-width="8" opacity="0.35"/>
+  <circle cx="500" cy="240" r="70" fill="none" stroke="#a0a9e5" stroke-width="8" opacity="0.35"/>
 </svg>
