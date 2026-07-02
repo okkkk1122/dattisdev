@@ -1,3 +1,4 @@
+allow_backend_relay
 relay
 rcpt_to.in_host_list
 dattisdev_inbox

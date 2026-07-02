@@ -157,15 +157,21 @@ export class EmailService {
   async sendEmail(dto: SendEmailDto) {
     const { from } = this.getSmtpConfig();
 
-    await this.deliverMail({
-      from,
-      to: dto.to,
-      cc: dto.cc,
-      subject: dto.subject,
-      text: dto.body,
-      replyTo: dto.replyTo,
-      inReplyTo: dto.inReplyTo,
-    });
+    try {
+      await this.deliverMail({
+        from,
+        to: dto.to,
+        cc: dto.cc,
+        subject: dto.subject,
+        text: dto.body,
+        replyTo: dto.replyTo,
+        inReplyTo: dto.inReplyTo,
+      });
+    } catch (error) {
+      const message = (error as Error).message || 'SMTP send failed';
+      this.logger.error(`sendEmail failed: ${message}`);
+      throw new BadRequestException(message);
+    }
 
     const saved = await this.storage.addEmail({
       from,
@@ -186,18 +192,24 @@ export class EmailService {
     const to = dto.to || contactEmail;
     const now = new Date().toLocaleString('fa-IR');
 
-    await this.deliverMail({
-      from,
-      to,
-      subject: 'تست ایمیل DattisDev',
-      text: [
-        'این یک ایمیل تست از پنل مدیریت DattisDev است.',
-        '',
-        `زمان ارسال: ${now}`,
-        `SMTP Host: ${this.getSmtpConfig().host}`,
-        `دامنه: ${this.getSmtpConfig().mailDomain}`,
-      ].join('\n'),
-    });
+    try {
+      await this.deliverMail({
+        from,
+        to,
+        subject: 'تست ایمیل DattisDev',
+        text: [
+          'این یک ایمیل تست از پنل مدیریت DattisDev است.',
+          '',
+          `زمان ارسال: ${now}`,
+          `SMTP Host: ${this.getSmtpConfig().host}`,
+          `دامنه: ${this.getSmtpConfig().mailDomain}`,
+        ].join('\n'),
+      });
+    } catch (error) {
+      const message = (error as Error).message || 'SMTP send failed';
+      this.logger.error(`sendTestEmail failed: ${message}`);
+      throw new BadRequestException(message);
+    }
 
     return {
       success: true,
