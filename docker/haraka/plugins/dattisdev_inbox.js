@@ -37,7 +37,8 @@ exports.forward_to_api = function (next, connection) {
   const txn = connection.transaction;
   const plugin = this;
 
-  const localDomains = new Set(['dattisdev.com', 'localhost']);
+  const mailDomain = (process.env.MAIL_DOMAIN || 'dattisdev.ir').toLowerCase();
+  const localDomains = new Set([mailDomain, 'localhost']);
   const recipients = txn.rcpt_to || [];
   const localOnly =
     recipients.length > 0 &&

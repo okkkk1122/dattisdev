@@ -11,7 +11,7 @@ export interface StoredEmail {
   body: string;
   receivedAt: string;
   read: boolean;
-  source: 'haraka' | 'contact';
+  source: 'haraka' | 'contact' | 'sent';
 }
 
 export interface SiteContent {
@@ -33,15 +33,15 @@ const DEFAULT_CONTENT: SiteContent = {
   emails: [],
   settings: {
     siteName: 'DattisDev',
-    contactEmail: 'info@dattisdev.com',
+    contactEmail: 'info@dattisdev.ir',
     contactPhone: '+98 21 1234 5678',
     address: 'تهران، خیابان ولیعصر',
-    mailDomain: 'dattisdev.com',
+    mailDomain: 'dattisdev.ir',
     smtpHost: 'haraka',
     smtpPort: 25,
     smtpUser: '',
     smtpPass: '',
-    smtpFrom: 'info@dattisdev.com',
+    smtpFrom: 'info@dattisdev.ir',
   },
 };
 

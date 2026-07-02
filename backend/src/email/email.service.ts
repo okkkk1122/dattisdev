@@ -1,9 +1,15 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import type SMTPTransport from 'nodemailer/lib/smtp-transport';
 import { StorageService } from '../storage/storage.service';
 import { ContactDto } from '../content/dto/content.dto';
 import { InboundEmailDto } from './dto/inbound-email.dto';
+import { SendEmailDto, SendTestEmailDto } from './dto/send-email.dto';
 
 @Injectable()
 export class EmailService {
@@ -13,19 +19,21 @@ export class EmailService {
 
   private getSmtpConfig() {
     const settings = this.storage.get('settings') as Record<string, string | number>;
+    const env = (key: string, fallback = '') =>
+      (process.env[key] as string | undefined) || fallback;
+
     return {
-      host: (process.env.SMTP_HOST as string) || (settings.smtpHost as string) || 'haraka',
-      port: Number(process.env.SMTP_PORT || settings.smtpPort || 25),
-      user: (settings.smtpUser as string) || process.env.SMTP_USER || '',
-      pass: (settings.smtpPass as string) || process.env.SMTP_PASS || '',
+      host: (settings.smtpHost as string) || env('SMTP_HOST', 'haraka'),
+      port: Number(settings.smtpPort || env('SMTP_PORT', '25')),
+      user: (settings.smtpUser as string) || env('SMTP_USER'),
+      pass: (settings.smtpPass as string) || env('SMTP_PASS'),
       from:
-        (settings.smtpFrom as string) || process.env.SMTP_FROM || 'info@dattisdev.com',
+        (settings.smtpFrom as string) || env('SMTP_FROM', 'info@dattisdev.ir'),
       contactEmail:
         (settings.contactEmail as string) ||
-        process.env.CONTACT_EMAIL ||
-        'info@dattisdev.com',
+        env('CONTACT_EMAIL', 'info@dattisdev.ir'),
       mailDomain:
-        (settings.mailDomain as string) || process.env.MAIL_DOMAIN || 'dattisdev.com',
+        (settings.mailDomain as string) || env('MAIL_DOMAIN', 'dattisdev.ir'),
     };
   }
 
@@ -45,6 +53,33 @@ export class EmailService {
     }
 
     return nodemailer.createTransport(options);
+  }
+
+  private async deliverMail(options: {
+    from: string;
+    to: string | string[];
+    cc?: string;
+    subject: string;
+    text: string;
+    html?: string;
+    replyTo?: string;
+    inReplyTo?: string;
+  }) {
+    const transporter = this.getTransporter();
+    if (!transporter) {
+      throw new BadRequestException('SMTP is not configured');
+    }
+
+    await transporter.sendMail({
+      from: options.from,
+      to: options.to,
+      cc: options.cc,
+      subject: options.subject,
+      text: options.text,
+      html: options.html ?? options.text.replace(/\n/g, '<br/>'),
+      replyTo: options.replyTo,
+      inReplyTo: options.inReplyTo,
+    });
   }
 
   async sendContactEmail(dto: ContactDto) {
@@ -91,13 +126,13 @@ export class EmailService {
     }
 
     try {
-      await transporter.sendMail({
+      await this.deliverMail({
         from,
         to: contactEmail,
-        replyTo: dto.email,
         subject: `[DattisDev Contact] ${dto.subject}`,
-        html,
         text: plainBody,
+        html,
+        replyTo: dto.email,
       });
       return { success: true, mode: 'sent', message: 'Email sent successfully' };
     } catch (error) {
@@ -119,10 +154,62 @@ export class EmailService {
     }
   }
 
+  async sendEmail(dto: SendEmailDto) {
+    const { from } = this.getSmtpConfig();
+
+    await this.deliverMail({
+      from,
+      to: dto.to,
+      cc: dto.cc,
+      subject: dto.subject,
+      text: dto.body,
+      replyTo: dto.replyTo,
+      inReplyTo: dto.inReplyTo,
+    });
+
+    const saved = await this.storage.addEmail({
+      from,
+      to: dto.cc ? [dto.to, dto.cc] : [dto.to],
+      subject: dto.subject,
+      body: dto.body,
+      receivedAt: new Date().toISOString(),
+      read: true,
+      source: 'sent',
+    });
+
+    this.logger.log(`Outbound email sent to ${dto.to}: ${dto.subject}`);
+    return { success: true, id: saved.id, message: 'Email sent successfully' };
+  }
+
+  async sendTestEmail(dto: SendTestEmailDto) {
+    const { from, contactEmail } = this.getSmtpConfig();
+    const to = dto.to || contactEmail;
+    const now = new Date().toLocaleString('fa-IR');
+
+    await this.deliverMail({
+      from,
+      to,
+      subject: 'تست ایمیل DattisDev',
+      text: [
+        'این یک ایمیل تست از پنل مدیریت DattisDev است.',
+        '',
+        `زمان ارسال: ${now}`,
+        `SMTP Host: ${this.getSmtpConfig().host}`,
+        `دامنه: ${this.getSmtpConfig().mailDomain}`,
+      ].join('\n'),
+    });
+
+    return {
+      success: true,
+      message: `Test email sent to ${to}`,
+      to,
+    };
+  }
+
   async receiveInboundEmail(dto: InboundEmailDto) {
     const expected =
-      process.env.HARAKA_INBOUND_SECRET ||
       (this.storage.get('settings') as Record<string, string>).harakaInboundSecret ||
+      process.env.HARAKA_INBOUND_SECRET ||
       'change-me-inbound-secret';
 
     if (!dto.secret || dto.secret !== expected) {
@@ -171,15 +258,25 @@ export class EmailService {
       }
     }
 
+    const inbox = this.getInbox();
+    const unread = inbox.filter((e) => !e.read && e.source !== 'sent').length;
+
     return {
       provider: 'haraka',
       smtpHost: cfg.host,
       smtpPort: cfg.port,
+      smtpFrom: cfg.from,
+      contactEmail: cfg.contactEmail,
       mailDomain: cfg.mailDomain,
       smtpOk,
       smtpMessage,
-      inboxCount: this.getInbox().length,
-      harakaPorts: { smtp: 2525, submission: 2587 },
+      inboxCount: inbox.length,
+      unreadCount: unread,
+      harakaPorts: {
+        smtp: Number(process.env.HARAKA_PUBLIC_SMTP_PORT || 2525),
+        submission: Number(process.env.HARAKA_PUBLIC_SUBMISSION_PORT || 2587),
+      },
+      mxHint: `MX @ → ${process.env.SERVER_IP || 'YOUR_SERVER_IP'} (port 25 or ${process.env.HARAKA_PUBLIC_SMTP_PORT || 2525})`,
     };
   }
 

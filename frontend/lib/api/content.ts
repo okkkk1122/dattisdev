@@ -33,4 +33,13 @@ export const emailApi = {
   markRead: (id: string, read: boolean) =>
     apiClient.patch(`/email/inbox/${id}/read`, { read }),
   deleteInboxItem: (id: string) => apiClient.delete(`/email/inbox/${id}`),
+  send: (data: {
+    to: string;
+    cc?: string;
+    subject: string;
+    body: string;
+    replyTo?: string;
+    inReplyTo?: string;
+  }) => apiClient.post('/email/send', data),
+  sendTest: (to?: string) => apiClient.post('/email/test-send', to ? { to } : {}),
 };

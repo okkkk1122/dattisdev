@@ -1,12 +1,12 @@
 ﻿'use client';
 
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { Mail, Phone, MapPin, Clock, Send, MessageSquare } from 'lucide-react';
 import Button from '@/components/common/Button';
-import { emailApi } from '@/lib/api/content';
+import { emailApi, contentApi } from '@/lib/api/content';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 
@@ -32,7 +32,7 @@ const translations: Record<string, Record<string, any>> = {
       hours: 'ساعات کاری',
       addressValue: 'تهران، خیابان ولیعصر، پلاک 123',
       phoneValue: '+98 21 1234 5678',
-      emailValue: 'info@dattisdev.com',
+      emailValue: 'info@dattisdev.ir',
       hoursValue: 'شنبه تا پنجشنبه: 9 صبح تا 6 عصر',
     },
   },
@@ -57,7 +57,7 @@ const translations: Record<string, Record<string, any>> = {
       hours: 'Working Hours',
       addressValue: 'Tehran, Valiasr Street, No. 123',
       phoneValue: '+98 21 1234 5678',
-      emailValue: 'info@dattisdev.com',
+      emailValue: 'info@dattisdev.ir',
       hoursValue: 'Saturday to Thursday: 9 AM to 6 PM',
     },
   },
@@ -82,7 +82,7 @@ const translations: Record<string, Record<string, any>> = {
       hours: 'ساعات العمل',
       addressValue: 'طهران، شارع ولي العصر، رقم 123',
       phoneValue: '+98 21 1234 5678',
-      emailValue: 'info@dattisdev.com',
+      emailValue: 'info@dattisdev.ir',
       hoursValue: 'السبت إلى الخميس: 9 صباحاً إلى 6 مساءً',
     },
   },
@@ -102,6 +102,24 @@ export default function ContactPage() {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [contactInfo, setContactInfo] = useState({
+    email: t.info.emailValue,
+    phone: t.info.phoneValue,
+    address: t.info.addressValue,
+  });
+
+  useEffect(() => {
+    contentApi
+      .getSettings()
+      .then(({ data }) => {
+        setContactInfo({
+          email: (data.contactEmail as string) || t.info.emailValue,
+          phone: (data.contactPhone as string) || t.info.phoneValue,
+          address: (data.address as string) || t.info.addressValue,
+        });
+      })
+      .catch(() => {});
+  }, [locale, t.info.addressValue, t.info.emailValue, t.info.phoneValue]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -234,7 +252,7 @@ export default function ContactPage() {
                   <MapPin className="text-primary-600 mt-1 flex-shrink-0" size={24} />
                   <div>
                     <p className="text-slate-700 dark:text-slate-300">
-                      {t.info.addressValue}
+                      {contactInfo.address}
                     </p>
                   </div>
                 </div>
@@ -242,7 +260,7 @@ export default function ContactPage() {
                   <Phone className="text-primary-600 mt-1 flex-shrink-0" size={24} />
                   <div>
                     <p className="text-slate-700 dark:text-slate-300">
-                      {t.info.phoneValue}
+                      {contactInfo.phone}
                     </p>
                   </div>
                 </div>
@@ -250,7 +268,7 @@ export default function ContactPage() {
                   <Mail className="text-primary-600 mt-1 flex-shrink-0" size={24} />
                   <div>
                     <p className="text-slate-700 dark:text-slate-300">
-                      {t.info.emailValue}
+                      {contactInfo.email}
                     </p>
                   </div>
                 </div>
@@ -277,7 +295,7 @@ export default function ContactPage() {
                 <div className="absolute inset-0 bg-primary-900/30 flex items-center justify-center">
                   <div className="bg-white/90 dark:bg-slate-900/90 px-4 py-2 rounded-lg flex items-center gap-2">
                     <MapPin className="text-primary-600" size={20} />
-                    <span className="text-sm font-medium">{t.info.addressValue}</span>
+                    <span className="text-sm font-medium">{contactInfo.address}</span>
                   </div>
                 </div>
               </div>

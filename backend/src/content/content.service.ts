@@ -47,12 +47,22 @@ export class ContentService {
 
   getSettings() {
     const settings = this.storage.get('settings');
-    const { smtpPass, ...safe } = settings as Record<string, unknown>;
-    return { ...safe, smtpPass: smtpPass ? '********' : '' };
+    const { smtpPass, harakaInboundSecret, ...safe } = settings as Record<
+      string,
+      unknown
+    >;
+    return {
+      ...safe,
+      smtpPass: smtpPass ? '********' : '',
+      harakaInboundSecret: harakaInboundSecret ? '********' : '',
+    };
   }
 
   async updateSettings(settings: Record<string, unknown>) {
-    return this.storage.updateSettings(settings);
+    const toSave = { ...settings };
+    if (toSave.smtpPass === '********') delete toSave.smtpPass;
+    if (toSave.harakaInboundSecret === '********') delete toSave.harakaInboundSecret;
+    return this.storage.updateSettings(toSave);
   }
 
   getAll() {

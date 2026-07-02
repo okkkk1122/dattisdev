@@ -11,15 +11,15 @@ export default function SettingsPage() {
   const [settings, setSettings] = useState({
     siteName: 'DattisDev',
     siteDescription: 'شرکت طراحی و توسعه نرم‌افزار',
-    contactEmail: 'info@dattisdev.com',
+    contactEmail: 'info@dattisdev.ir',
     contactPhone: '+98 21 1234 5678',
     address: 'تهران، خیابان ولیعصر',
     smtpHost: 'haraka',
     smtpPort: 25,
     smtpUser: '',
     smtpPass: '',
-    smtpFrom: 'info@dattisdev.com',
-    mailDomain: 'dattisdev.com',
+    smtpFrom: 'info@dattisdev.ir',
+    mailDomain: 'dattisdev.ir',
     harakaInboundSecret: '',
     notifications: true,
     emailNotifications: true,
@@ -27,6 +27,7 @@ export default function SettingsPage() {
     usdToRialRate: 420000,
   });
   const [loading, setLoading] = useState(true);
+  const [testSendTo, setTestSendTo] = useState('');
 
   useEffect(() => {
     contentApi
@@ -84,6 +85,15 @@ export default function SettingsPage() {
       else toast.error(data.message || 'SMTP پیکربندی نشده');
     } catch {
       toast.error('خطا در تست اتصال SMTP');
+    }
+  };
+
+  const handleTestSend = async () => {
+    try {
+      const { data } = await emailApi.sendTest(testSendTo || settings.contactEmail);
+      toast.success(`ایمیل تست به ${data.to} ارسال شد`);
+    } catch {
+      toast.error('ارسال ایمیل تست ناموفق بود');
     }
   };
 
@@ -251,7 +261,7 @@ export default function SettingsPage() {
                 type="text"
                 value={settings.mailDomain}
                 onChange={(e) => handleChange('mailDomain', e.target.value)}
-                placeholder="dattisdev.com"
+                placeholder="dattisdev.ir"
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white"
               />
             </div>
@@ -297,8 +307,21 @@ export default function SettingsPage() {
                 className="w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg focus:ring-2 focus:ring-primary-500 dark:bg-gray-700 dark:text-white" />
             </div>
           </div>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap gap-3 items-end">
             <Button variant="outline" onClick={handleTestEmail}>تست اتصال SMTP</Button>
+            <div className="flex flex-wrap items-end gap-2">
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">ارسال ایمیل تست به</label>
+                <input
+                  type="email"
+                  value={testSendTo}
+                  onChange={(e) => setTestSendTo(e.target.value)}
+                  placeholder={settings.contactEmail}
+                  className="px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg dark:bg-gray-700 dark:text-white text-sm"
+                />
+              </div>
+              <Button variant="outline" onClick={handleTestSend}>ارسال تست</Button>
+            </div>
           </div>
         </motion.div>
 

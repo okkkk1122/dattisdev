@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { EmailService } from './email.service';
 import { ContactDto } from '../content/dto/content.dto';
 import { InboundEmailDto } from './dto/inbound-email.dto';
+import { SendEmailDto, SendTestEmailDto } from './dto/send-email.dto';
 
 @ApiTags('email')
 @Controller('email')
@@ -49,5 +50,17 @@ export class EmailController {
   @ApiOperation({ summary: 'Test SMTP connection' })
   testConnection() {
     return this.emailService.testConnection();
+  }
+
+  @Post('send')
+  @ApiOperation({ summary: 'Send email from admin' })
+  sendEmail(@Body() dto: SendEmailDto) {
+    return this.emailService.sendEmail(dto);
+  }
+
+  @Post('test-send')
+  @ApiOperation({ summary: 'Send test email' })
+  sendTestEmail(@Body() dto: SendTestEmailDto) {
+    return this.emailService.sendTestEmail(dto);
   }
 }
