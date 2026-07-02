@@ -37,6 +37,17 @@ export class EmailService {
     };
   }
 
+  private formatFromAddress(from: string, mailDomain: string) {
+    const email = from.includes('@') ? from : `info@${mailDomain}`;
+    return `"DattisDev" <${email}>`;
+  }
+
+  private buildMessageId(mailDomain: string) {
+    const stamp = Date.now().toString(36);
+    const random = Math.random().toString(36).slice(2, 12);
+    return `<${stamp}.${random}@${mailDomain}>`;
+  }
+
   private getTransporter() {
     const { host, port, user, pass } = this.getSmtpConfig();
     if (!host) return null;
@@ -70,15 +81,23 @@ export class EmailService {
       throw new BadRequestException('SMTP is not configured');
     }
 
+    const { mailDomain } = this.getSmtpConfig();
+    const fromAddress = this.formatFromAddress(options.from, mailDomain);
+    const envelopeFrom = fromAddress.match(/<([^>]+)>/)?.[1] ?? options.from;
+
     await transporter.sendMail({
-      from: options.from,
+      from: fromAddress,
       to: options.to,
       cc: options.cc,
       subject: options.subject,
       text: options.text,
       html: options.html ?? options.text.replace(/\n/g, '<br/>'),
-      replyTo: options.replyTo,
+      replyTo: options.replyTo ?? envelopeFrom,
       inReplyTo: options.inReplyTo,
+      messageId: this.buildMessageId(mailDomain),
+      headers: {
+        'X-Mailer': 'DattisDev Mail',
+      },
     });
   }
 

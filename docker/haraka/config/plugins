@@ -1,4 +1,5 @@
 allow_backend_relay
 relay
+haraka-plugin-dkim
 rcpt_to.in_host_list
 dattisdev_inbox

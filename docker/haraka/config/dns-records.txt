@@ -1,0 +1,11 @@
+mail._domainkey.dattisdev.ir TXT
+"v=DKIM1; k=rsa; p=quRT4tB8/O5PUWZtrvZKVGtt1zmVMc9+BNtW+p+Hte9aci8uDbXqcuabKu7yUfCLINmucPWwMTZ7FcHtyG3nIDGxvs7E/dHeenIYaH6RqUoLAnjqpI9vJ+cBKfomj3TVTC/b8+U5utdIqOWJkGosQ9ccy4NB9z68VHaWuryYehBjHteYAzRTbmFgCm35KlpA11PDA5ELE+yOUMLNzBdUsHbzbTf5gyXPmF+2yYbKogD105i1dBRIuhLxLM9nuF3M6x30gOYOdOqgEwg/HDV/2y2jfnACd55yjAWGAK6gP0KS0rHFEPU4Xc6aGGvP/jip7UUPEbXc1c9NKDDBjy8Zsw=="
+
+_dmarc.dattisdev.ir TXT
+"v=DMARC1; p=none; rua=mailto:info@dattisdev.ir; adkim=s; aspf=s; fo=1"
+
+SPF for dattisdev.ir (replace existing TXT):
+"v=spf1 mx a:mail.dattisdev.ir ip4:193.177.242.230 -all"
+
+PTR (request from hosting provider):
+193.177.242.230 -> mail.dattisdev.ir

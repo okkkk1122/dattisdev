@@ -235,8 +235,21 @@ export default function EmailAdminPage() {
                     <strong>{status.harakaPorts.submission}</strong> را در فایروال سرور باز کنید.
                   </li>
                   <li>
-                    رکورد <code className="text-primary-600">SPF</code> اضافه کنید:{' '}
-                    <code className="text-xs">v=spf1 mx a ip4:SERVER_IP ~all</code>
+                    رکورد <code className="text-primary-600">SPF</code> (TXT روی @):{' '}
+                    <code className="text-xs">v=spf1 mx a:mail.{status.mailDomain} ip4:SERVER_IP -all</code>
+                  </li>
+                  <li>
+                    رکورد <code className="text-primary-600">DKIM</code> (TXT روی mail._domainkey): سرور
+                    امضای DKIM را خودکار اضافه می‌کند؛ مقدار TXT را از فایل{' '}
+                    <code className="text-xs">docker/haraka/config/dns-records.txt</code> کپی کنید.
+                  </li>
+                  <li>
+                    رکورد <code className="text-primary-600">DMARC</code> (TXT روی _dmarc):{' '}
+                    <code className="text-xs">v=DMARC1; p=none; rua=mailto:info@{status.mailDomain}</code>
+                  </li>
+                  <li>
+                    از هاستینگ <strong>PTR/rDNS</strong> برای IP سرور درخواست کنید:{' '}
+                    <code className="text-xs">mail.{status.mailDomain}</code>
                   </li>
                   <li>
                     در تنظیمات سایت، <strong>کلید Inbound Haraka</strong> و{' '}
